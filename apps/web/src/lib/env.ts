@@ -9,6 +9,7 @@ export const env = createEnv({
       .min(1)
       .optional()
       .default("build-time-placeholder"),
+    SITE_URL: z.string(),
   },
   client: {
     NEXT_PUBLIC_URL: z
@@ -36,6 +37,7 @@ export const env = createEnv({
       .optional()
       .default("build-time-placeholder"),
     NEXT_PUBLIC_CONVEX_URL: z.string(),
+    NEXT_PUBLIC_CONVEX_SITE_URL: z.string(),
   },
   // For Next.js >= 13.4.4, you only need to destructure client variables:
   experimental__runtimeEnv: {
@@ -46,5 +48,6 @@ export const env = createEnv({
     NEXT_PUBLIC_FARCASTER_SIGNATURE:
       process.env.NEXT_PUBLIC_FARCASTER_SIGNATURE,
     NEXT_PUBLIC_CONVEX_URL: process.env.NEXT_PUBLIC_CONVEX_URL,
+    NEXT_PUBLIC_CONVEX_SITE_URL: process.env.NEXT_PUBLIC_CONVEX_SITE_URL,
   },
 });
