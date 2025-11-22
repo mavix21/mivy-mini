@@ -177,7 +177,7 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-background">
-      <Header onSearchChange={setSearchQuery} searchValue={searchQuery} />
+      {/* <Header onSearchChange={setSearchQuery} searchValue={searchQuery} /> */}
 
       <main className="container px-4 py-6 md:px-6 md:py-8">
         <section className="mb-6">

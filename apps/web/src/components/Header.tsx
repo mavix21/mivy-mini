@@ -99,7 +99,7 @@ const Header = ({ onSearchChange, searchValue = "" }: HeaderProps) => {
             <span className="hidden sm:inline">Creator</span>
           </Button>
 
-          <MobileSettingsSheet language={language} onLanguageChange={setLanguage} />
+          {/* <MobileSettingsSheet language={language} onLanguageChange={setLanguage} /> */}
         </nav>
       </div>
 
