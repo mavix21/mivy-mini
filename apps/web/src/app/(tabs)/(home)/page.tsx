@@ -3,8 +3,6 @@
 import { useFarcaster } from "@/contexts/miniapp-context";
 import { useState, useEffect, useMemo } from "react";
 import { useAccount, useConnect } from "wagmi";
-// added components from AI Generated code
-import Header from "@/components/Header";
 import ContentCard from "@/components/ContentCard";
 import CategoryFilter from "@/components/CategoryFilter";
 import { Button } from "@/components/ui/button";
