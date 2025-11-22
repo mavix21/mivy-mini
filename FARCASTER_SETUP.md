@@ -14,23 +14,27 @@ The Farcaster manifest requires a signed account association to verify domain ow
 ### For Development (using ngrok)
 
 1. **Start your development server:**
+
    ```bash
    pnpm dev
    ```
 
 2. **Expose your local server with ngrok:**
+
    ```bash
    ngrok http 3000
    ```
-   
+
    Copy the ngrok URL (e.g., `https://abc123.ngrok-free.app`)
 
 3. **Update your environment variables:**
+
    ```bash
    cp .env.example .env.local
    ```
-   
+
    Edit `.env.local` and update:
+
    ```
    NEXT_PUBLIC_URL=https://abc123.ngrok-free.app
    ```
@@ -42,6 +46,7 @@ The Farcaster manifest requires a signed account association to verify domain ow
    - Copy the generated `header`, `payload`, and `signature` values
 
 5. **Update your .env.local file:**
+
    ```
    NEXT_PUBLIC_FARCASTER_HEADER=eyJmaWQiOjM2MjEsInR5cGUiOiJjdXN0b2R5Iiwia2V5IjoiMHgyY2Q4NWEwOTMyNjFmNTkyNzA4MDRBNkVBNjk3Q2VBNENlQkVjYWZFIn0
    NEXT_PUBLIC_FARCASTER_PAYLOAD=eyJkb21haW4iOiJhYmMxMjMubmdyb2stZnJlZS5hcHAifQ
@@ -68,12 +73,13 @@ The Farcaster manifest requires a signed account association to verify domain ow
    NEXT_PUBLIC_FARCASTER_HEADER=your-header-here
    NEXT_PUBLIC_FARCASTER_PAYLOAD=your-payload-here
    NEXT_PUBLIC_FARCASTER_SIGNATURE=your-signature-here
-   JWT_SECRET=your-secure-jwt-secret
+   BETTER_AUTH_SECRET=your-secure-jwt-secret
    ```
 
 ## Verifying Your Setup
 
 1. **Check your manifest endpoint:**
+
    ```bash
    curl https://yourdomain.com/.well-known/farcaster.json
    ```
@@ -87,15 +93,18 @@ The Farcaster manifest requires a signed account association to verify domain ow
 ## Troubleshooting
 
 ### "Account association not configured" error
+
 - Make sure you've set all three environment variables: `NEXT_PUBLIC_FARCASTER_HEADER`, `NEXT_PUBLIC_FARCASTER_PAYLOAD`, and `NEXT_PUBLIC_FARCASTER_SIGNATURE`
 - Verify the values are not placeholder text
 
 ### "No valid account association" in Warpcast
+
 - Ensure the domain in your signed payload exactly matches your deployed domain
 - Check that your manifest endpoint returns a 200 status code
 - Verify the JSON structure matches the Farcaster specification
 
 ### Domain mismatch errors
+
 - The signed domain must exactly match where your app is hosted, including subdomains
 - If using ngrok, make sure the ngrok URL matches the signed domain
 

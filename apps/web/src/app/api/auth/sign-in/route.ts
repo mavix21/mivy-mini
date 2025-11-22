@@ -15,7 +15,7 @@ export const POST = async (req: NextRequest): Promise<NextResponse> => {
   let isValidSignature;
   let walletAddress: Address = zeroAddress;
   let expirationTime = Date.now() + 7 * 24 * 60 * 60 * 1000; // 7 days in milliseconds
-  
+
   // Verify signature matches custody address and auth address
   try {
     const payload = await quickAuthClient.verifyJwt({
@@ -37,12 +37,12 @@ export const POST = async (req: NextRequest): Promise<NextResponse> => {
   if (!isValidSignature || !fid) {
     return NextResponse.json(
       { success: false, error: "Invalid token" },
-      { status: 401 }
+      { status: 401 },
     );
   }
 
   // Generate JWT token
-  const secret = new TextEncoder().encode(env.JWT_SECRET);
+  const secret = new TextEncoder().encode(env.BETTER_AUTH_SECRET);
   const token = await new jose.SignJWT({
     fid,
     walletAddress,
@@ -61,6 +61,6 @@ export const POST = async (req: NextRequest): Promise<NextResponse> => {
         walletAddress,
       },
     },
-    { status: 200 }
+    { status: 200 },
   );
 };
