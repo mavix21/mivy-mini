@@ -7,7 +7,25 @@ import { query } from "./_generated/server";
 import { betterAuth } from "better-auth";
 import { siwf } from "better-auth-siwf";
 
-const siteUrl = process.env.SITE_URL!;
+const resolveSiteUrl = () => {
+  const fallback = "http://localhost:3000";
+  const candidate =
+    process.env.SITE_URL ??
+    process.env.NEXT_PUBLIC_SITE_URL ??
+    (process.env.VERCEL_URL
+      ? `https://${process.env.VERCEL_URL}`
+      : undefined) ??
+    fallback;
+
+  try {
+    new URL(candidate);
+    return candidate;
+  } catch {
+    return fallback;
+  }
+};
+
+const siteUrl = resolveSiteUrl();
 const siwfHostname = new URL(siteUrl).hostname;
 
 // The component client has methods needed for integrating Convex with Better Auth,
