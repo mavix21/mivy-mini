@@ -1,13 +1,12 @@
-import type { Metadata } from 'next';
-import { Inter } from 'next/font/google';
-import './globals.css';
+import type { Metadata } from "next";
+import { Inter } from "next/font/google";
+import "./globals.css";
 
-import { Navbar } from '@/components/navbar';
-import { BottomNav } from '@/components/bottom-nav';
-import Providers from "@/components/providers"
-import { ConvexClientProvider } from './ConvexClientProvider';
+import { BottomNav } from "@/components/bottom-nav";
+import Providers from "@/components/providers";
+import { ConvexClientProvider } from "./ConvexClientProvider";
 
-const inter = Inter({ subsets: ['latin'] });
+const inter = Inter({ subsets: ["latin"] });
 
 const appUrl = process.env.NEXT_PUBLIC_URL || "http://localhost:3000";
 
@@ -28,11 +27,11 @@ const frame = {
 };
 
 export const metadata: Metadata = {
-  title: 'Mivy',
-  description: 'The next generation of content creation',
+  title: "Mivy",
+  description: "The next generation of content creation",
   openGraph: {
-    title: 'Mivy',
-    description: 'The next generation of content creation',
+    title: "Mivy",
+    description: "The next generation of content creation",
     images: [`${appUrl}/opengraph-image.png`],
   },
   other: {
@@ -45,19 +44,16 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-
   return (
     <html lang="en">
       <body className={inter.className}>
         {/* Navbar is included on all pages */}
         <div className="relative flex min-h-screen flex-col">
-          <ConvexClientProvider session={null}>
+          <ConvexClientProvider>
             <Providers>
               {/* <Navbar /> */}
               <BottomNav />
-              <main className="flex-1">
-                {children}
-              </main>
+              <main className="flex-1">{children}</main>
             </Providers>
           </ConvexClientProvider>
         </div>
