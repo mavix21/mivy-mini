@@ -53,7 +53,7 @@ export default function RootLayout({
         <div className="relative flex min-h-screen flex-col">
           <ConvexClientProvider session={null}>
             <Providers>
-              <Navbar />
+              {/* <Navbar /> */}
               <BottomNav />
               <main className="flex-1">
                 {children}
