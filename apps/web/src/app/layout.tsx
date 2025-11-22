@@ -4,6 +4,7 @@ import './globals.css';
 
 import { Navbar } from '@/components/navbar';
 import Providers from "@/components/providers"
+import { ConvexClientProvider } from './ConvexClientProvider';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -43,17 +44,20 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
+
   return (
     <html lang="en">
       <body className={inter.className}>
         {/* Navbar is included on all pages */}
         <div className="relative flex min-h-screen flex-col">
-          <Providers>
-            <Navbar />
-            <main className="flex-1">
-              {children}
-            </main>
-          </Providers>
+          <ConvexClientProvider session={null}>
+            <Providers>
+              <Navbar />
+              <main className="flex-1">
+                {children}
+              </main>
+            </Providers>
+          </ConvexClientProvider>
         </div>
       </body>
     </html>
