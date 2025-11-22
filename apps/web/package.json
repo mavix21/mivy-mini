@@ -23,6 +23,7 @@
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.0.0",
     "convex": "^1.29.3",
+    "convex-helpers": "^0.1.105",
     "eruda": "^3.2.3",
     "jose": "^5.10.0",
     "lucide-react": "^0.292.0",

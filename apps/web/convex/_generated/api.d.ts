@@ -8,13 +8,21 @@
  * @module
  */
 
+import type * as tables_linkedAccounts from "../tables/linkedAccounts.js";
+import type * as tables_user from "../tables/user.js";
+import type * as users from "../users.js";
+
 import type {
   ApiFromModules,
   FilterApi,
   FunctionReference,
 } from "convex/server";
 
-declare const fullApi: ApiFromModules<{}>;
+declare const fullApi: ApiFromModules<{
+  "tables/linkedAccounts": typeof tables_linkedAccounts;
+  "tables/user": typeof tables_user;
+  users: typeof users;
+}>;
 
 /**
  * A utility for referencing Convex functions in your app's public API.
