@@ -1,5 +1,5 @@
 "use client";
-import { sdk } from "@farcaster/frame-sdk";
+import { sdk } from "@farcaster/miniapp-sdk";
 // Use any types for Farcaster SDK compatibility
 type FrameContext = any;
 type AddFrameResult = any;
@@ -27,7 +27,10 @@ interface MiniAppProviderProps {
   children: ReactNode;
 }
 
-export function MiniAppProvider({ children, addMiniAppOnLoad }: MiniAppProviderProps): JSX.Element {
+export function MiniAppProvider({
+  children,
+  addMiniAppOnLoad,
+}: MiniAppProviderProps): JSX.Element {
   const [context, setContext] = useState<FrameContext | null>(null);
   const [isMiniAppReady, setIsMiniAppReady] = useState(false);
 
