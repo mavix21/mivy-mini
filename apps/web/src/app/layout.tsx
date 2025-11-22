@@ -3,6 +3,7 @@ import { Inter } from 'next/font/google';
 import './globals.css';
 
 import { Navbar } from '@/components/navbar';
+import { BottomNav } from '@/components/bottom-nav';
 import Providers from "@/components/providers"
 import { ConvexClientProvider } from './ConvexClientProvider';
 
@@ -53,6 +54,7 @@ export default function RootLayout({
           <ConvexClientProvider session={null}>
             <Providers>
               <Navbar />
+              <BottomNav />
               <main className="flex-1">
                 {children}
               </main>
