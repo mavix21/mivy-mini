@@ -6,7 +6,7 @@ import { env } from "@/lib/env";
  * @returns The farcaster manifest for the frame
  */
 export async function getFarcasterManifest() {
-  const frameName = "mivy-mini";
+  const frameName = "Mivy";
   const appUrl = env.NEXT_PUBLIC_URL;
   const noindex = appUrl.includes("localhost") || appUrl.includes("ngrok") || appUrl.includes("https://dev.");
 
@@ -52,10 +52,10 @@ export async function getFarcasterManifest() {
       splashBackgroundColor: "#FFFFFF",
       webhookUrl: `${appUrl}/api/webhook`,
       // Metadata https://github.com/farcasterxyz/miniapps/discussions/191
-      subtitle: "The next generation social content", // 30 characters, no emojis or special characters, short description under app name
-      description: "The next generation social content", // 170 characters, no emojis or special characters, promotional message displayed on Mini App Page
+      subtitle: "The future of content creation", // 30 characters, no emojis or special characters, short description under app name
+      description: "The next generation of content creation. Join as a consumer or creator.", // 170 characters, no emojis or special characters, promotional message displayed on Mini App Page
       primaryCategory: "social",
-      tags: ["mini-app", "celo"], // up to 5 tags, filtering/search tags
+      tags: ["mivy", "influencer", "content", "patreon"], // up to 5 tags, filtering/search tags
       tagline: "Built on Celo", // 30 characters, marketing tagline should be punchy and descriptive
       ogTitle: `${frameName}`, // 30 characters, app name + short tag, Title case, no emojis
       ogDescription: "The next generation social content", // 100 characters, summarize core benefits in 1-2 lines
