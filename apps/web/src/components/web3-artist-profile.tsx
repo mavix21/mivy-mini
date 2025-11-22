@@ -19,12 +19,12 @@ import {
   Zap,
   Gem,
 } from "lucide-react"
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import { Button } from "@/components/ui/button"
-import { Badge } from "@/components/ui/badge"
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area"
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/profile/avatar"
+import { Button } from "@/components/ui/profile/button"
+import { Badge } from "@/components/ui/profile/badge"
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/profile/card"
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/profile/tabs"
+import { ScrollArea, ScrollBar } from "@/components/ui/profile/scroll-area"
 
 export default function Web3ArtistProfile() {
   const [activeTab, setActiveTab] = useState("posts")
