@@ -96,9 +96,9 @@ importers:
       '@farcaster/auth-client':
         specifier: ^0.7.0
         version: 0.7.0(typescript@5.9.3)(zod@3.25.76)
-      '@farcaster/frame-core':
+      '@farcaster/miniapp-core':
         specifier: latest
-        version: 0.3.11(typescript@5.9.3)
+        version: 0.4.1(typescript@5.9.3)
       '@farcaster/miniapp-sdk':
         specifier: ^0.2.1
         version: 0.2.1(typescript@5.9.3)(zod@3.25.76)
@@ -1085,20 +1085,6 @@ packages:
       - typescript
       - utf-8-validate
       - zod
-    dev: false
-
-  /@farcaster/frame-core@0.3.11(typescript@5.9.3):
-    resolution: {integrity: sha512-0sfYif6B4NqjbkVNsrx9Amr6m9N0rPSwbbBFWJ4Go1EkFR1uMFWs9LPCXP4XCLp8DsmzLY/Y5ZYledl7oSO30Q==}
-    dependencies:
-      '@farcaster/miniapp-core': 0.4.1(typescript@5.9.3)
-      '@solana/web3.js': 1.98.4(typescript@5.9.3)
-      ox: 0.4.4(typescript@5.9.3)(zod@3.25.76)
-      zod: 3.25.76
-    transitivePeerDependencies:
-      - bufferutil
-      - encoding
-      - typescript
-      - utf-8-validate
     dev: false
 
   /@farcaster/miniapp-core@0.4.1(typescript@5.9.3):
