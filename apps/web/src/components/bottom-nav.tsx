@@ -56,12 +56,12 @@ export function BottomNav() {
                                 isActive ? "text-primary" : "text-muted-foreground"
                             )}
                         >
-                            <Icon className={cn("h-6 w-6", isActive && "fill-current")} />
+                            <Icon className={cn("h-6 w-6",)} />
                             <span>{item.name}</span>
                         </Link>
                     )
                 })}
             </nav>
-        </div>
+        </div >
     )
 }
