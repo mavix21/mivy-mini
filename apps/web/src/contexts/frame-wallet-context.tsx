@@ -17,11 +17,7 @@ const config = createConfig({
 
 const queryClient = new QueryClient();
 
-export default function FrameWalletProvider({
-  children,
-}: {
-  children: ReactNode;
-}) {
+export function FrameWalletProvider({ children }: { children: ReactNode }) {
   return (
     <WagmiProvider config={config}>
       <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>

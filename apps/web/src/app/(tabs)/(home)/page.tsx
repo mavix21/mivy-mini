@@ -1,6 +1,6 @@
 "use client";
-import { useMiniApp } from "@/contexts/miniapp-context";
-import { sdk } from "@farcaster/frame-sdk";
+
+import { useFarcaster } from "@/contexts/miniapp-context";
 import { useState, useEffect, useMemo } from "react";
 import { useAccount, useConnect } from "wagmi";
 // added components from AI Generated code
@@ -9,7 +9,6 @@ import ContentCard from "@/components/ContentCard";
 import CategoryFilter from "@/components/CategoryFilter";
 import { Button } from "@/components/ui/button";
 import type { CategoryType } from "@/components/CategoryFilter";
-import creatorHero from "@/assets/creator-hero.jpg";
 
 // Added interface from AI Generated code
 interface ContentItem {
@@ -23,122 +22,127 @@ interface ContentItem {
   category: CategoryType;
 }
 
+const contentItems: ContentItem[] = [
+  {
+    id: 1,
+    title: "Digital Art Masterclass",
+    creator: "Alex Rivers",
+    image:
+      "https://images.unsplash.com/photo-1639762681485-074b7f938ba0?w=800&h=450&fit=crop",
+    supporters: 1234,
+    description:
+      "Learn advanced digital painting techniques and create stunning artwork with professional tips and tricks.",
+    avatarUrl: "https://api.dicebear.com/7.x/avataaars/svg?seed=Alex",
+    category: "art",
+  },
+  {
+    id: 2,
+    title: "Web3 Development Guide",
+    creator: "Sarah Chen",
+    image:
+      "https://images.unsplash.com/photo-1639762681485-074b7f938ba0?w=800&h=450&fit=crop",
+    supporters: 892,
+    description:
+      "Complete guide to building decentralized applications on blockchain with hands-on projects.",
+    avatarUrl: "https://api.dicebear.com/7.x/avataaars/svg?seed=Sarah",
+    category: "tech",
+  },
+  {
+    id: 3,
+    title: "Music Production Secrets",
+    creator: "Jordan Smith",
+    image:
+      "https://images.unsplash.com/photo-1598488035139-bdbb2231ce04?w=800&h=450&fit=crop",
+    supporters: 2456,
+    description:
+      "Behind the scenes of hit music production. Learn mixing, mastering, and composition from a pro.",
+    avatarUrl: "https://api.dicebear.com/7.x/avataaars/svg?seed=Jordan",
+    category: "music",
+  },
+  {
+    id: 4,
+    title: "Creative Writing Workshop",
+    creator: "Maya Johnson",
+    image:
+      "https://images.unsplash.com/photo-1455390582262-044cdead277a?w=800&h=450&fit=crop",
+    supporters: 678,
+    description:
+      "Unlock your storytelling potential with weekly writing prompts and community feedback sessions.",
+    avatarUrl: "https://api.dicebear.com/7.x/avataaars/svg?seed=Maya",
+    category: "writing",
+  },
+  {
+    id: 5,
+    title: "3D Animation Studio",
+    creator: "Chris Park",
+    image:
+      "https://images.unsplash.com/photo-1633354994836-31e9771ec854?w=800&h=450&fit=crop",
+    supporters: 1567,
+    description:
+      "Master 3D modeling and animation with Blender. From basics to advanced character rigging.",
+    avatarUrl: "https://api.dicebear.com/7.x/avataaars/svg?seed=Chris",
+    category: "video",
+  },
+  {
+    id: 6,
+    title: "Photography Masterpieces",
+    creator: "Emma Wilson",
+    image:
+      "https://images.unsplash.com/photo-1542038784456-1ea8e935640e?w=800&h=450&fit=crop",
+    supporters: 3421,
+    description:
+      "Explore the art of photography through exclusive tutorials, critiques, and location shoots.",
+    avatarUrl: "https://api.dicebear.com/7.x/avataaars/svg?seed=Emma",
+    category: "art",
+  },
+  {
+    id: 7,
+    title: "Smart Contract Security",
+    creator: "Dev Martinez",
+    image:
+      "https://images.unsplash.com/photo-1639322537228-f710d846310a?w=800&h=450&fit=crop",
+    supporters: 1123,
+    description:
+      "Learn to audit and secure smart contracts on Ethereum and other blockchains.",
+    avatarUrl: "https://api.dicebear.com/7.x/avataaars/svg?seed=Dev",
+    category: "tech",
+  },
+  {
+    id: 8,
+    title: "Indie Game Dev Journey",
+    creator: "Sam Taylor",
+    image:
+      "https://images.unsplash.com/photo-1550745165-9bc0b252726f?w=800&h=450&fit=crop",
+    supporters: 2890,
+    description:
+      "Follow my journey creating indie games from concept to launch with Unity and Unreal.",
+    avatarUrl: "https://api.dicebear.com/7.x/avataaars/svg?seed=Sam",
+    category: "video",
+  },
+];
+
 export default function Home() {
-  const { context, isMiniAppReady } = useMiniApp();
-  const [isAddingMiniApp, setIsAddingMiniApp] = useState(false);
-  const [addMiniAppMessage, setAddMiniAppMessage] = useState<string | null>(null);
+  const { context, isMiniAppReady } = useFarcaster();
   const [selectedCategory, setSelectedCategory] = useState<CategoryType>("all");
   const [searchQuery, setSearchQuery] = useState<string>("");
   // Wallet connection hooks
-  const { address, isConnected, isConnecting } = useAccount();
+  const { isConnected, isConnecting } = useAccount();
   const { connect, connectors } = useConnect();
 
   // Auto-connect wallet when miniapp is ready
   useEffect(() => {
-    if (isMiniAppReady && !isConnected && !isConnecting && connectors.length > 0) {
-      const farcasterConnector = connectors.find(c => c.id === 'farcaster');
+    if (
+      isMiniAppReady &&
+      !isConnected &&
+      !isConnecting &&
+      connectors.length > 0
+    ) {
+      const farcasterConnector = connectors.find((c) => c.id === "farcaster");
       if (farcasterConnector) {
         connect({ connector: farcasterConnector });
       }
     }
   }, [isMiniAppReady, isConnected, isConnecting, connectors, connect]);
-
-  // Extract user data from context
-  const user = context?.user;
-  // Use connected wallet address if available, otherwise fall back to user custody/verification
-  const walletAddress = address || user?.custody || user?.verifications?.[0] || "0x1e4B...605B";
-  const displayName = user?.displayName || user?.username || "User";
-  const username = user?.username || "@user";
-  const pfpUrl = user?.pfpUrl;
-
-  const contentItems: ContentItem[] = [
-    {
-      id: 1,
-      title: "Digital Art Masterclass",
-      creator: "Alex Rivers",
-      image: "https://images.unsplash.com/photo-1639762681485-074b7f938ba0?w=800&h=450&fit=crop",
-      supporters: 1234,
-      description: "Learn advanced digital painting techniques and create stunning artwork with professional tips and tricks.",
-      avatarUrl: "https://api.dicebear.com/7.x/avataaars/svg?seed=Alex",
-      category: "art",
-    },
-    {
-      id: 2,
-      title: "Web3 Development Guide",
-      creator: "Sarah Chen",
-      image: "https://images.unsplash.com/photo-1639762681485-074b7f938ba0?w=800&h=450&fit=crop",
-      supporters: 892,
-      description: "Complete guide to building decentralized applications on blockchain with hands-on projects.",
-      avatarUrl: "https://api.dicebear.com/7.x/avataaars/svg?seed=Sarah",
-      category: "tech",
-    },
-    {
-      id: 3,
-      title: "Music Production Secrets",
-      creator: "Jordan Smith",
-      image: "https://images.unsplash.com/photo-1598488035139-bdbb2231ce04?w=800&h=450&fit=crop",
-      supporters: 2456,
-      description: "Behind the scenes of hit music production. Learn mixing, mastering, and composition from a pro.",
-      avatarUrl: "https://api.dicebear.com/7.x/avataaars/svg?seed=Jordan",
-      category: "music",
-    },
-    {
-      id: 4,
-      title: "Creative Writing Workshop",
-      creator: "Maya Johnson",
-      image: "https://images.unsplash.com/photo-1455390582262-044cdead277a?w=800&h=450&fit=crop",
-      supporters: 678,
-      description: "Unlock your storytelling potential with weekly writing prompts and community feedback sessions.",
-      avatarUrl: "https://api.dicebear.com/7.x/avataaars/svg?seed=Maya",
-      category: "writing",
-    },
-    {
-      id: 5,
-      title: "3D Animation Studio",
-      creator: "Chris Park",
-      image: "https://images.unsplash.com/photo-1633354994836-31e9771ec854?w=800&h=450&fit=crop",
-      supporters: 1567,
-      description: "Master 3D modeling and animation with Blender. From basics to advanced character rigging.",
-      avatarUrl: "https://api.dicebear.com/7.x/avataaars/svg?seed=Chris",
-      category: "video",
-    },
-    {
-      id: 6,
-      title: "Photography Masterpieces",
-      creator: "Emma Wilson",
-      image: "https://images.unsplash.com/photo-1542038784456-1ea8e935640e?w=800&h=450&fit=crop",
-      supporters: 3421,
-      description: "Explore the art of photography through exclusive tutorials, critiques, and location shoots.",
-      avatarUrl: "https://api.dicebear.com/7.x/avataaars/svg?seed=Emma",
-      category: "art",
-    },
-    {
-      id: 7,
-      title: "Smart Contract Security",
-      creator: "Dev Martinez",
-      image: "https://images.unsplash.com/photo-1639322537228-f710d846310a?w=800&h=450&fit=crop",
-      supporters: 1123,
-      description: "Learn to audit and secure smart contracts on Ethereum and other blockchains.",
-      avatarUrl: "https://api.dicebear.com/7.x/avataaars/svg?seed=Dev",
-      category: "tech",
-    },
-    {
-      id: 8,
-      title: "Indie Game Dev Journey",
-      creator: "Sam Taylor",
-      image: "https://images.unsplash.com/photo-1550745165-9bc0b252726f?w=800&h=450&fit=crop",
-      supporters: 2890,
-      description: "Follow my journey creating indie games from concept to launch with Unity and Unreal.",
-      avatarUrl: "https://api.dicebear.com/7.x/avataaars/svg?seed=Sam",
-      category: "video",
-    },
-  ];
-
-  // Format wallet address to show first 6 and last 4 characters
-  const formatAddress = (address: string) => {
-    if (!address || address.length < 10) return address;
-    return `${address.slice(0, 6)}...${address.slice(-4)}`;
-  };
 
   const filteredContent = useMemo(() => {
     let filtered = contentItems;
@@ -155,7 +159,7 @@ export default function Home() {
         (item) =>
           item.title.toLowerCase().includes(query) ||
           item.creator.toLowerCase().includes(query) ||
-          item.description.toLowerCase().includes(query)
+          item.description.toLowerCase().includes(query),
       );
     }
 

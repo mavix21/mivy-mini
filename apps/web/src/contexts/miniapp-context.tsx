@@ -1,77 +1,131 @@
 "use client";
-import { sdk } from "@farcaster/miniapp-sdk";
-// Use any types for Farcaster SDK compatibility
-type FrameContext = any;
-type AddFrameResult = any;
+
+import type {
+  MiniAppContext,
+  SafeAreaInsets,
+} from "@farcaster/miniapp-core/dist/context";
+import {
+  type MiniAppHostCapability,
+  sdk as miniappSdk,
+} from "@farcaster/miniapp-sdk";
 import {
   createContext,
+  type ReactNode,
   useCallback,
   useContext,
   useEffect,
   useState,
-  type ReactNode,
 } from "react";
-import FrameWalletProvider from "./frame-wallet-context";
+import { FrameWalletProvider } from "./frame-wallet-context";
 
-interface MiniAppContextType {
+type FarcasterContextType = {
   isMiniAppReady: boolean;
-  context: FrameContext | null;
-  setMiniAppReady: () => void;
-  addMiniApp: () => Promise<AddFrameResult | null>;
+  isInMiniApp: boolean;
+  context: MiniAppContext | null;
+  capabilities: MiniAppHostCapability[] | null;
+  safeAreaInsets: SafeAreaInsets;
+  error: string | null;
+};
+
+export const FarcasterContext = createContext<FarcasterContextType | undefined>(
+  undefined,
+);
+
+export function useFarcaster() {
+  const context = useContext(FarcasterContext);
+  if (context === undefined) {
+    throw new Error("useFarcaster must be used within a FarcasterProvider");
+  }
+  return context;
 }
 
-const MiniAppContext = createContext<MiniAppContextType | undefined>(undefined);
-
-interface MiniAppProviderProps {
+export function FarcasterProvider({
+  addMiniAppOnLoad,
+  children,
+}: {
   addMiniAppOnLoad?: boolean;
   children: ReactNode;
-}
-
-export function MiniAppProvider({
-  children,
-  addMiniAppOnLoad,
-}: MiniAppProviderProps): JSX.Element {
-  const [context, setContext] = useState<FrameContext | null>(null);
+}) {
+  const [isInMiniApp, setIsInMiniApp] = useState(false);
+  const [context, setContext] = useState<MiniAppContext | null>(null);
   const [isMiniAppReady, setIsMiniAppReady] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [capabilities, setCapabilities] = useState<
+    MiniAppHostCapability[] | null
+  >(null);
 
-  const setMiniAppReady = useCallback(async () => {
+  const [safeAreaInsets, setSafeAreaInsets] = useState<SafeAreaInsets>({
+    top: 0,
+    bottom: 0,
+    left: 0,
+    right: 0,
+  });
+
+  const loadMiniApp = useCallback(async () => {
     try {
-      const context = await sdk.context;
-      if (context) {
-        setContext(context);
+      // first thing first, call ready on the miniapp sdk
+      await miniappSdk.actions.ready();
+
+      // check if the app is in the miniapp
+      const tmpIsInMiniApp = await miniappSdk.isInMiniApp();
+      setIsInMiniApp(tmpIsInMiniApp);
+
+      // then get the context
+      const tmpContext = await miniappSdk.context;
+
+      // if the context is not null, set the context
+      if (tmpContext) {
+        setContext(tmpContext as MiniAppContext);
+        // then get the safe area insets
+        if (tmpContext.client.safeAreaInsets) {
+          setSafeAreaInsets(tmpContext.client.safeAreaInsets);
+        }
+        setIsMiniAppReady(true);
+
+        if (addMiniAppOnLoad) {
+          await miniappSdk.actions.addMiniApp();
+        }
+
+        try {
+          const tmpCapabilities = await miniappSdk.getCapabilities();
+          setCapabilities(tmpCapabilities);
+        } catch (err) {
+          console.error("Failed to get capabilities", err);
+          setError(
+            err instanceof Error ? err.message : "Failed to get capabilities",
+          );
+        }
+      } else {
+        setError("Failed to load Farcaster context");
+        setIsInMiniApp(false);
       }
-      await sdk.actions.ready();
     } catch (err) {
       console.error("SDK initialization error:", err);
-    } finally {
-      setIsMiniAppReady(true);
+      setError(err instanceof Error ? err.message : "Failed to initialize SDK");
     }
-  }, []);
-
-  useEffect(() => {
-    if (!isMiniAppReady) {
-      setMiniAppReady().then(() => {
-        console.log("MiniApp loaded");
-      });
-    }
-  }, [isMiniAppReady, setMiniAppReady]);
+  }, [addMiniAppOnLoad]);
 
   const handleAddMiniApp = useCallback(async () => {
     try {
-      const result = await sdk.actions.addFrame();
+      const result = await miniappSdk.actions.addMiniApp();
       if (result) {
         return result;
       }
       return null;
-    } catch (error) {
-      console.error("[error] adding frame", error);
+    } catch (error1) {
+      console.error("[error] adding miniapp", error1);
       return null;
     }
   }, []);
 
   useEffect(() => {
-    // on load, set the frame as ready
-    if (isMiniAppReady && !context?.client?.added && addMiniAppOnLoad) {
+    // on load, set the miniapp as ready
+    if (
+      isMiniAppReady &&
+      context &&
+      !context?.client?.added &&
+      addMiniAppOnLoad
+    ) {
       handleAddMiniApp();
     }
   }, [
@@ -79,26 +133,29 @@ export function MiniAppProvider({
     context?.client?.added,
     handleAddMiniApp,
     addMiniAppOnLoad,
+    context,
   ]);
 
+  useEffect(() => {
+    if (!isMiniAppReady) {
+      loadMiniApp().then(() => {
+        console.log("MiniApp loaded");
+      });
+    }
+  }, [isMiniAppReady, loadMiniApp]);
+
   return (
-    <MiniAppContext.Provider
+    <FarcasterContext.Provider
       value={{
+        isInMiniApp,
         isMiniAppReady,
-        setMiniAppReady,
-        addMiniApp: handleAddMiniApp,
         context,
+        capabilities,
+        safeAreaInsets,
+        error,
       }}
     >
       <FrameWalletProvider>{children}</FrameWalletProvider>
-    </MiniAppContext.Provider>
+    </FarcasterContext.Provider>
   );
-}
-
-export function useMiniApp(): MiniAppContextType {
-  const context = useContext(MiniAppContext);
-  if (context === undefined) {
-    throw new Error("useMiniApp must be used within a MiniAppProvider");
-  }
-  return context;
 }
