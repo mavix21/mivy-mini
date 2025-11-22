@@ -15,7 +15,7 @@ const frame = {
   version: "1",
   imageUrl: `${appUrl}/opengraph-image.png`,
   button: {
-    title: "Launch mivy-mini",
+    title: "Start earning",
     action: {
       type: "launch_frame",
       name: "mivy-mini",
@@ -27,11 +27,11 @@ const frame = {
 };
 
 export const metadata: Metadata = {
-  title: 'mivy-mini',
-  description: 'The next generation social content',
+  title: 'Mivy',
+  description: 'The next generation of content creation',
   openGraph: {
-    title: 'mivy-mini',
-    description: 'The next generation social content',
+    title: 'Mivy',
+    description: 'The next generation of content creation',
     images: [`${appUrl}/opengraph-image.png`],
   },
   other: {
