@@ -98,10 +98,12 @@ export function FarcasterProvider({
       } else {
         setError("Failed to load Farcaster context");
         setIsInMiniApp(false);
+        setIsMiniAppReady(true);
       }
     } catch (err) {
       console.error("SDK initialization error:", err);
       setError(err instanceof Error ? err.message : "Failed to initialize SDK");
+      setIsMiniAppReady(true);
     }
   }, [addMiniAppOnLoad]);
 
