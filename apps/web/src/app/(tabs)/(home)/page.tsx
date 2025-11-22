@@ -120,7 +120,7 @@ const contentItems: ContentItem[] = [
 ];
 
 export default function Home() {
-  const { context, isMiniAppReady } = useFarcaster();
+  const { isMiniAppReady } = useFarcaster();
   const [selectedCategory, setSelectedCategory] = useState<CategoryType>("all");
   const [searchQuery, setSearchQuery] = useState<string>("");
   // Wallet connection hooks
