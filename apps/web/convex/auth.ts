@@ -5,8 +5,10 @@ import { components } from "./_generated/api";
 import { DataModel } from "./_generated/dataModel";
 import { query } from "./_generated/server";
 import { betterAuth } from "better-auth";
+import { siwf } from "better-auth-siwf";
 
 const siteUrl = process.env.SITE_URL!;
+const siwfHostname = new URL(siteUrl).hostname;
 
 // The component client has methods needed for integrating Convex with Better Auth,
 // as well as helper methods for general use.
@@ -39,6 +41,10 @@ export const createAuth = (
     plugins: [
       // The Convex plugin is required for Convex compatibility
       convex(),
+      siwf({
+        hostname: siwfHostname,
+        allowUserToLink: true,
+      }),
     ],
   });
 };
