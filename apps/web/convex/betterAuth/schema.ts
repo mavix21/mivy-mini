@@ -14,10 +14,14 @@ export const tables = {
     createdAt: v.number(),
     updatedAt: v.number(),
     userId: v.optional(v.union(v.null(), v.string())),
+    farcasterFid: v.optional(v.union(v.null(), v.number())),
+    farcasterUsername: v.optional(v.union(v.null(), v.string())),
+    farcasterDisplayName: v.optional(v.union(v.null(), v.string())),
   })
-    .index("email_name", ["email","name"])
+    .index("email_name", ["email", "name"])
     .index("name", ["name"])
-    .index("userId", ["userId"]),
+    .index("userId", ["userId"])
+    .index("farcasterFid", ["farcasterFid"]),
   session: defineTable({
     expiresAt: v.number(),
     token: v.string(),
@@ -28,7 +32,7 @@ export const tables = {
     userId: v.string(),
   })
     .index("expiresAt", ["expiresAt"])
-    .index("expiresAt_userId", ["expiresAt","userId"])
+    .index("expiresAt_userId", ["expiresAt", "userId"])
     .index("token", ["token"])
     .index("userId", ["userId"]),
   account: defineTable({
@@ -44,11 +48,15 @@ export const tables = {
     password: v.optional(v.union(v.null(), v.string())),
     createdAt: v.number(),
     updatedAt: v.number(),
+    farcasterFid: v.optional(v.union(v.null(), v.number())),
+    farcasterUsername: v.optional(v.union(v.null(), v.string())),
+    farcasterDisplayName: v.optional(v.union(v.null(), v.string())),
   })
     .index("accountId", ["accountId"])
-    .index("accountId_providerId", ["accountId","providerId"])
-    .index("providerId_userId", ["providerId","userId"])
-    .index("userId", ["userId"]),
+    .index("accountId_providerId", ["accountId", "providerId"])
+    .index("providerId_userId", ["providerId", "userId"])
+    .index("userId", ["userId"])
+    .index("farcasterFid", ["farcasterFid"]),
   verification: defineTable({
     identifier: v.string(),
     value: v.string(),
@@ -63,6 +71,18 @@ export const tables = {
     privateKey: v.string(),
     createdAt: v.number(),
   }),
+  farcaster: defineTable({
+    userId: v.string(),
+    fid: v.number(),
+    username: v.optional(v.union(v.null(), v.string())),
+    displayName: v.optional(v.union(v.null(), v.string())),
+    avatarUrl: v.optional(v.union(v.null(), v.string())),
+    notificationDetails: v.optional(v.union(v.null(), v.string())),
+    createdAt: v.number(),
+    updatedAt: v.number(),
+  })
+    .index("userId", ["userId"])
+    .index("fid", ["fid"]),
 };
 
 const schema = defineSchema(tables);
