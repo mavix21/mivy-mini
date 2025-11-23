@@ -5,7 +5,6 @@ import { linkedAccountsTable } from "./tables/linkedAccounts";
 import { membershipsTable } from "./tables/membership";
 import { postsTable } from "./tables/post";
 import { tiersTable } from "./tables/tier";
-import { usersTable } from "./tables/user";
 
 export default defineSchema({
     creators: creatorsTable,

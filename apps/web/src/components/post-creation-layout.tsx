@@ -1,6 +1,6 @@
 "use client";
-import { useEffect } from "react";
-import { useConvexAuth } from "convex/react";
+import { useEffect, useState } from "react";
+import { useConvexAuth, useMutation } from "convex/react";
 import {
   Bold,
   Italic,
@@ -15,16 +15,44 @@ import {
 import { Button } from "@/components/ui/button";
 import { useAuthGateDialog } from "./auth-gate-dialog.context";
 import Link from "next/link";
+import { api } from "@/backend/_generated/api";
 
 export function PostCreationLayout() {
   const { isAuthenticated, isLoading } = useConvexAuth();
   const { open } = useAuthGateDialog();
+  const createPost = useMutation(api.posts.create);
+
+  const [title, setTitle] = useState("");
+  const [summary, setSummary] = useState("");
+  const [content, setContent] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   useEffect(() => {
     if (!isLoading && !isAuthenticated) {
       open({ key: "createPost" });
     }
   }, [isAuthenticated, isLoading, open]);
+
+  const handlePublish = async () => {
+    if (!content) return;
+    
+    setIsSubmitting(true);
+    try {
+      await createPost({
+        title,
+        summary,
+        content,
+        type: "text",
+      });
+      // Redirect to home or show success
+      window.location.href = "/";
+    } catch (error) {
+      console.error("Failed to publish post:", error);
+      // Ideally show a toast here
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
 
   if (isLoading) {
     return (
@@ -60,8 +88,12 @@ export function PostCreationLayout() {
           <span className="sr-only">More options</span>
         </Button>
 
-        <Button className="rounded-md px-4 py-1.5 h-auto">
-          Publish
+        <Button 
+          className="rounded-md px-4 py-1.5 h-auto"
+          onClick={handlePublish}
+          disabled={isSubmitting || !content}
+        >
+          {isSubmitting ? "Publishing..." : "Publish"}
         </Button>
       </header>
 
@@ -75,6 +107,8 @@ export function PostCreationLayout() {
               className="w-full text-4xl font-bold text-gray-300 placeholder:text-gray-300 focus:text-gray-900 outline-none resize-none bg-transparent overflow-hidden"
               rows={1}
               style={{ minHeight: "3rem" }}
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
               onInput={(e) => {
                 // Simple auto-grow
                 const target = e.target as HTMLTextAreaElement;
@@ -90,6 +124,8 @@ export function PostCreationLayout() {
               placeholder="Write a brief summary..."
               className="w-full text-lg text-gray-500 placeholder:text-gray-400 outline-none resize-none bg-transparent"
               rows={1}
+              value={summary}
+              onChange={(e) => setSummary(e.target.value)}
               onInput={(e) => {
                 const target = e.target as HTMLTextAreaElement;
                 target.style.height = "auto";
@@ -103,6 +139,8 @@ export function PostCreationLayout() {
             <textarea
               placeholder="Tell your story..."
               className="w-full text-lg text-gray-800 placeholder:text-gray-300 outline-none resize-none bg-transparent min-h-[300px]"
+              value={content}
+              onChange={(e) => setContent(e.target.value)}
               onInput={(e) => {
                 const target = e.target as HTMLTextAreaElement;
                 target.style.height = "auto";

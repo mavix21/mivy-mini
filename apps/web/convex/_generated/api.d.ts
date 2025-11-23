@@ -17,7 +17,6 @@ import type * as tables_linkedAccounts from "../tables/linkedAccounts.js";
 import type * as tables_membership from "../tables/membership.js";
 import type * as tables_post from "../tables/post.js";
 import type * as tables_tier from "../tables/tier.js";
-import type * as tables_user from "../tables/user.js";
 
 import type {
   ApiFromModules,
@@ -35,7 +34,6 @@ declare const fullApi: ApiFromModules<{
   "tables/membership": typeof tables_membership;
   "tables/post": typeof tables_post;
   "tables/tier": typeof tables_tier;
-  "tables/user": typeof tables_user;
 }>;
 
 /**

@@ -2,7 +2,7 @@ import { defineTable } from "convex/server";
 import { v } from "convex/values";
 
 export const creatorsTable = defineTable({
-    userId: v.id("users"),
+    userId: v.id("user"),
 
     // VISUALS (For the "Discover" card & Profile Header)
     // The 3D cube image in your first screenshot
