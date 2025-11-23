@@ -1,6 +1,7 @@
 "use client"
 import { Bold, Italic, Strikethrough, List, ListOrdered, Code, LinkIcon, ImageIcon, MoreHorizontal } from "lucide-react"
 import { Button } from "@/components/ui/button"
+import Link from "next/link"
 
 export function PostCreationLayout() {
   // Auto-resize textarea logic could go here, but for a clean UI we'll use CSS-based sizing or simple textareas
@@ -9,9 +10,9 @@ export function PostCreationLayout() {
     <div className="flex flex-col h-screen bg-white text-black">
       {/* Header */}
       <header className="flex items-center justify-between px-4 h-14 border-b border-gray-100 shrink-0">
-        <Button variant="ghost" className="text-gray-600 hover:bg-gray-50 h-auto p-2 font-normal">
+        <Link href="/" className="text-gray-600 hover:bg-gray-50 h-auto p-2 font-normal">
           Close
-        </Button>
+        </Link>
 
         <Button variant="ghost" size="icon" className="text-gray-600">
           <MoreHorizontal className="h-5 w-5" />

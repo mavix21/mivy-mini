@@ -8,6 +8,9 @@ import { cn } from "@/lib/utils"
 export function BottomNav() {
     const pathname = usePathname()
 
+    if (pathname === "/create") return null
+
+
     const navItems = [
         {
             name: "Explore",
