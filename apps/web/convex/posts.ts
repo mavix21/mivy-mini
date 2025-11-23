@@ -34,6 +34,8 @@ export const create = mutation({
     summary: v.optional(v.string()),
     content: v.string(),
     type: v.literal("text"),
+    cid: v.optional(v.string()),
+    pieceCid: v.optional(v.string()),
   },
   handler: async (ctx, args) => {
     const authUser = await authComponent.getAuthUser(ctx);
@@ -59,6 +61,8 @@ export const create = mutation({
         type: "text",
         content: args.content,
       },
+      cid: args.cid,
+      pieceCid: args.pieceCid,
       stats: {
         likeCount: 0,
         commentCount: 0,

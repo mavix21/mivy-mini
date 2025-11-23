@@ -6,6 +6,8 @@ export const postsTable = defineTable({
     creationTime: v.number(), // "5h ago"
     title: v.optional(v.string()),
     summary: v.optional(v.string()),
+    cid: v.optional(v.string()),
+    pieceCid: v.optional(v.string()),
 
     // LOCKING MECHANISM
     // Which tier is needed to see the unblurred content?

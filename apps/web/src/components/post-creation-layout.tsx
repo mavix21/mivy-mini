@@ -40,11 +40,29 @@ export function PostCreationLayout() {
     
     setIsSubmitting(true);
     try {
+      // 1. Upload to Filecoin
+      const response = await fetch("/api/upload", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ title, content }),
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to upload to Filecoin");
+      }
+
+      const { cid, pieceCid } = await response.json();
+
+      // 2. Create Post in Convex
       await createPost({
         title,
         summary,
         content,
         type: "text",
+        cid,
+        pieceCid,
       });
       // Redirect to home or show success
       router.push("/");
