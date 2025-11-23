@@ -56,7 +56,14 @@ Mivy Mini integrates Celo to handle the trustless payment leg of the product. We
 
 ## 👥 Team
 
-The project is led by Marcelo Vizcarra, a builder focused on Farcaster-native consumer crypto. Reach out on Warpcast `@mavix21` or GitHub `@mavix21` if you want to collaborate or review the roadmap.
+- Gianella Coronel - Software engineer and blockchain enthusiast. [LinkedIn](https://www.linkedin.com/in/gianellacoronelmanchego/) | [X](https://x.com/GianeWM) | [GitHub](https://github.com/gianellacoronel)
+
+- Anthoaned Zavala - Software Engineering student at
+  JalaUniversity. [LinkedIn](https://www.linkedin.com/in/anthozg/) | [X](https://x.com/anthozg_) | [GitHub](https://github.com/anthozg)
+
+- Marcelo Vizcarra - Fullstack developer and Farcaster-miniapps crypto enthusiast. [LinkedIn](https://www.linkedin.com/in/marcelo-vizcarra-7459841b1/) | [X](https://x.com/@Marcelo210909) | [GitHub](https://github.com/mavix21)
+
+- Pedro Lionel Marsetti - Full stack developer and CEO. [LinkedIn](https://linkedin.com/in/marsetti) | [X](https://x.com/@marsettil) | [GitHub](https://github.com/0xp3)
 
 ## ⚙️ Getting Started
 
