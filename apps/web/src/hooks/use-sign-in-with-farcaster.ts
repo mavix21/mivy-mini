@@ -76,16 +76,40 @@ export const useSignInWithFarcaster = (
           throw new Error("Failed to get token");
         }
 
+        if (!ctx.user?.fid) {
+          throw new Error("Missing Farcaster fid in context");
+        }
+
+        const notificationDetails = ctx.client?.notificationDetails
+          ? [
+              {
+                appFid: ctx.client.clientFid,
+                url: ctx.client.notificationDetails.url,
+                token: ctx.client.notificationDetails.token,
+              },
+            ]
+          : undefined;
+
         const payload: SignInPayload = {
           token: tokenResult.token,
           user: {
-            ...ctx.user,
-            notificationDetails: (ctx.client?.notificationDetails ??
-              undefined) as SignInPayload["user"]["notificationDetails"],
+            fid: ctx.user.fid,
+            username: ctx.user.username ?? undefined,
+            displayName: ctx.user.displayName ?? undefined,
+            pfpUrl: ctx.user.pfpUrl ?? undefined,
+            notificationDetails,
           },
         };
+        console.warn(
+          "[useSignInWithFarcaster] Signing in with payload:",
+          payload,
+        );
 
         const response = await authClient.signInWithFarcaster(payload);
+        console.warn(
+          "[useSignInWithFarcaster] Received sign-in response:",
+          response,
+        );
         const result = unwrapVerifyResponse(response);
         if (!result?.success) {
           const message = response.error?.message ?? "Failed to verify token";
