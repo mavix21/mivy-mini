@@ -6,6 +6,7 @@ import { DataModel } from "./_generated/dataModel";
 import { query } from "./_generated/server";
 import { betterAuth } from "better-auth";
 import { siwf } from "better-auth-siwf";
+import { nextCookies } from "better-auth/next-js";
 
 const resolveSiteUrl = () => {
   const fallback = "http://localhost:3000";
@@ -67,6 +68,7 @@ export const createAuth = (
         hostname: siwfHostname,
         allowUserToLink: true,
       }),
+      nextCookies(),
     ],
   });
 };
