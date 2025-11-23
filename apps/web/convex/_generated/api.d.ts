@@ -12,7 +12,6 @@ import type * as auth from "../auth.js";
 import type * as http from "../http.js";
 import type * as tables_linkedAccounts from "../tables/linkedAccounts.js";
 import type * as tables_user from "../tables/user.js";
-import type * as users from "../users.js";
 
 import type {
   ApiFromModules,
@@ -25,7 +24,6 @@ declare const fullApi: ApiFromModules<{
   http: typeof http;
   "tables/linkedAccounts": typeof tables_linkedAccounts;
   "tables/user": typeof tables_user;
-  users: typeof users;
 }>;
 
 /**
@@ -67,6 +65,9 @@ export declare const components: {
                   createdAt: number;
                   email: string;
                   emailVerified: boolean;
+                  farcasterDisplayName?: null | string;
+                  farcasterFid?: null | number;
+                  farcasterUsername?: null | string;
                   image?: null | string;
                   name: string;
                   updatedAt: number;
@@ -92,6 +93,9 @@ export declare const components: {
                   accessTokenExpiresAt?: null | number;
                   accountId: string;
                   createdAt: number;
+                  farcasterDisplayName?: null | string;
+                  farcasterFid?: null | number;
+                  farcasterUsername?: null | string;
                   idToken?: null | string;
                   password?: null | string;
                   providerId: string;
@@ -120,6 +124,19 @@ export declare const components: {
                   publicKey: string;
                 };
                 model: "jwks";
+              }
+            | {
+                data: {
+                  avatarUrl?: null | string;
+                  createdAt: number;
+                  displayName?: null | string;
+                  fid: number;
+                  notificationDetails?: null | string;
+                  updatedAt: number;
+                  userId: string;
+                  username?: null | string;
+                };
+                model: "farcaster";
               };
           onCreateHandle?: string;
           select?: Array<string>;
@@ -143,6 +160,9 @@ export declare const components: {
                     | "createdAt"
                     | "updatedAt"
                     | "userId"
+                    | "farcasterFid"
+                    | "farcasterUsername"
+                    | "farcasterDisplayName"
                     | "_id";
                   operator?:
                     | "lt"
@@ -216,6 +236,9 @@ export declare const components: {
                     | "password"
                     | "createdAt"
                     | "updatedAt"
+                    | "farcasterFid"
+                    | "farcasterUsername"
+                    | "farcasterDisplayName"
                     | "_id";
                   operator?:
                     | "lt"
@@ -275,6 +298,41 @@ export declare const components: {
                 where?: Array<{
                   connector?: "AND" | "OR";
                   field: "publicKey" | "privateKey" | "createdAt" | "_id";
+                  operator?:
+                    | "lt"
+                    | "lte"
+                    | "gt"
+                    | "gte"
+                    | "eq"
+                    | "in"
+                    | "not_in"
+                    | "ne"
+                    | "contains"
+                    | "starts_with"
+                    | "ends_with";
+                  value:
+                    | string
+                    | number
+                    | boolean
+                    | Array<string>
+                    | Array<number>
+                    | null;
+                }>;
+              }
+            | {
+                model: "farcaster";
+                where?: Array<{
+                  connector?: "AND" | "OR";
+                  field:
+                    | "userId"
+                    | "fid"
+                    | "username"
+                    | "displayName"
+                    | "avatarUrl"
+                    | "notificationDetails"
+                    | "createdAt"
+                    | "updatedAt"
+                    | "_id";
                   operator?:
                     | "lt"
                     | "lte"
@@ -325,6 +383,9 @@ export declare const components: {
                     | "createdAt"
                     | "updatedAt"
                     | "userId"
+                    | "farcasterFid"
+                    | "farcasterUsername"
+                    | "farcasterDisplayName"
                     | "_id";
                   operator?:
                     | "lt"
@@ -398,6 +459,9 @@ export declare const components: {
                     | "password"
                     | "createdAt"
                     | "updatedAt"
+                    | "farcasterFid"
+                    | "farcasterUsername"
+                    | "farcasterDisplayName"
                     | "_id";
                   operator?:
                     | "lt"
@@ -477,6 +541,41 @@ export declare const components: {
                     | Array<number>
                     | null;
                 }>;
+              }
+            | {
+                model: "farcaster";
+                where?: Array<{
+                  connector?: "AND" | "OR";
+                  field:
+                    | "userId"
+                    | "fid"
+                    | "username"
+                    | "displayName"
+                    | "avatarUrl"
+                    | "notificationDetails"
+                    | "createdAt"
+                    | "updatedAt"
+                    | "_id";
+                  operator?:
+                    | "lt"
+                    | "lte"
+                    | "gt"
+                    | "gte"
+                    | "eq"
+                    | "in"
+                    | "not_in"
+                    | "ne"
+                    | "contains"
+                    | "starts_with"
+                    | "ends_with";
+                  value:
+                    | string
+                    | number
+                    | boolean
+                    | Array<string>
+                    | Array<number>
+                    | null;
+                }>;
               };
           onDeleteHandle?: string;
         },
@@ -487,7 +586,13 @@ export declare const components: {
         "internal",
         {
           limit?: number;
-          model: "user" | "session" | "account" | "verification" | "jwks";
+          model:
+            | "user"
+            | "session"
+            | "account"
+            | "verification"
+            | "jwks"
+            | "farcaster";
           offset?: number;
           paginationOpts: {
             cursor: string | null;
@@ -528,7 +633,13 @@ export declare const components: {
         "query",
         "internal",
         {
-          model: "user" | "session" | "account" | "verification" | "jwks";
+          model:
+            | "user"
+            | "session"
+            | "account"
+            | "verification"
+            | "jwks"
+            | "farcaster";
           select?: Array<string>;
           where?: Array<{
             connector?: "AND" | "OR";
@@ -567,6 +678,9 @@ export declare const components: {
                   createdAt?: number;
                   email?: string;
                   emailVerified?: boolean;
+                  farcasterDisplayName?: null | string;
+                  farcasterFid?: null | number;
+                  farcasterUsername?: null | string;
                   image?: null | string;
                   name?: string;
                   updatedAt?: number;
@@ -582,6 +696,9 @@ export declare const components: {
                     | "createdAt"
                     | "updatedAt"
                     | "userId"
+                    | "farcasterFid"
+                    | "farcasterUsername"
+                    | "farcasterDisplayName"
                     | "_id";
                   operator?:
                     | "lt"
@@ -654,6 +771,9 @@ export declare const components: {
                   accessTokenExpiresAt?: null | number;
                   accountId?: string;
                   createdAt?: number;
+                  farcasterDisplayName?: null | string;
+                  farcasterFid?: null | number;
+                  farcasterUsername?: null | string;
                   idToken?: null | string;
                   password?: null | string;
                   providerId?: string;
@@ -678,6 +798,9 @@ export declare const components: {
                     | "password"
                     | "createdAt"
                     | "updatedAt"
+                    | "farcasterFid"
+                    | "farcasterUsername"
+                    | "farcasterDisplayName"
                     | "_id";
                   operator?:
                     | "lt"
@@ -749,6 +872,51 @@ export declare const components: {
                 where?: Array<{
                   connector?: "AND" | "OR";
                   field: "publicKey" | "privateKey" | "createdAt" | "_id";
+                  operator?:
+                    | "lt"
+                    | "lte"
+                    | "gt"
+                    | "gte"
+                    | "eq"
+                    | "in"
+                    | "not_in"
+                    | "ne"
+                    | "contains"
+                    | "starts_with"
+                    | "ends_with";
+                  value:
+                    | string
+                    | number
+                    | boolean
+                    | Array<string>
+                    | Array<number>
+                    | null;
+                }>;
+              }
+            | {
+                model: "farcaster";
+                update: {
+                  avatarUrl?: null | string;
+                  createdAt?: number;
+                  displayName?: null | string;
+                  fid?: number;
+                  notificationDetails?: null | string;
+                  updatedAt?: number;
+                  userId?: string;
+                  username?: null | string;
+                };
+                where?: Array<{
+                  connector?: "AND" | "OR";
+                  field:
+                    | "userId"
+                    | "fid"
+                    | "username"
+                    | "displayName"
+                    | "avatarUrl"
+                    | "notificationDetails"
+                    | "createdAt"
+                    | "updatedAt"
+                    | "_id";
                   operator?:
                     | "lt"
                     | "lte"
@@ -793,6 +961,9 @@ export declare const components: {
                   createdAt?: number;
                   email?: string;
                   emailVerified?: boolean;
+                  farcasterDisplayName?: null | string;
+                  farcasterFid?: null | number;
+                  farcasterUsername?: null | string;
                   image?: null | string;
                   name?: string;
                   updatedAt?: number;
@@ -808,6 +979,9 @@ export declare const components: {
                     | "createdAt"
                     | "updatedAt"
                     | "userId"
+                    | "farcasterFid"
+                    | "farcasterUsername"
+                    | "farcasterDisplayName"
                     | "_id";
                   operator?:
                     | "lt"
@@ -880,6 +1054,9 @@ export declare const components: {
                   accessTokenExpiresAt?: null | number;
                   accountId?: string;
                   createdAt?: number;
+                  farcasterDisplayName?: null | string;
+                  farcasterFid?: null | number;
+                  farcasterUsername?: null | string;
                   idToken?: null | string;
                   password?: null | string;
                   providerId?: string;
@@ -904,6 +1081,9 @@ export declare const components: {
                     | "password"
                     | "createdAt"
                     | "updatedAt"
+                    | "farcasterFid"
+                    | "farcasterUsername"
+                    | "farcasterDisplayName"
                     | "_id";
                   operator?:
                     | "lt"
@@ -975,6 +1155,51 @@ export declare const components: {
                 where?: Array<{
                   connector?: "AND" | "OR";
                   field: "publicKey" | "privateKey" | "createdAt" | "_id";
+                  operator?:
+                    | "lt"
+                    | "lte"
+                    | "gt"
+                    | "gte"
+                    | "eq"
+                    | "in"
+                    | "not_in"
+                    | "ne"
+                    | "contains"
+                    | "starts_with"
+                    | "ends_with";
+                  value:
+                    | string
+                    | number
+                    | boolean
+                    | Array<string>
+                    | Array<number>
+                    | null;
+                }>;
+              }
+            | {
+                model: "farcaster";
+                update: {
+                  avatarUrl?: null | string;
+                  createdAt?: number;
+                  displayName?: null | string;
+                  fid?: number;
+                  notificationDetails?: null | string;
+                  updatedAt?: number;
+                  userId?: string;
+                  username?: null | string;
+                };
+                where?: Array<{
+                  connector?: "AND" | "OR";
+                  field:
+                    | "userId"
+                    | "fid"
+                    | "username"
+                    | "displayName"
+                    | "avatarUrl"
+                    | "notificationDetails"
+                    | "createdAt"
+                    | "updatedAt"
+                    | "_id";
                   operator?:
                     | "lt"
                     | "lte"

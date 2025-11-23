@@ -34,6 +34,9 @@ export type ComponentApi<Name extends string | undefined = string | undefined> =
                   createdAt: number;
                   email: string;
                   emailVerified: boolean;
+                  farcasterDisplayName?: null | string;
+                  farcasterFid?: null | number;
+                  farcasterUsername?: null | string;
                   image?: null | string;
                   name: string;
                   updatedAt: number;
@@ -59,6 +62,9 @@ export type ComponentApi<Name extends string | undefined = string | undefined> =
                   accessTokenExpiresAt?: null | number;
                   accountId: string;
                   createdAt: number;
+                  farcasterDisplayName?: null | string;
+                  farcasterFid?: null | number;
+                  farcasterUsername?: null | string;
                   idToken?: null | string;
                   password?: null | string;
                   providerId: string;
@@ -87,6 +93,19 @@ export type ComponentApi<Name extends string | undefined = string | undefined> =
                   publicKey: string;
                 };
                 model: "jwks";
+              }
+            | {
+                data: {
+                  avatarUrl?: null | string;
+                  createdAt: number;
+                  displayName?: null | string;
+                  fid: number;
+                  notificationDetails?: null | string;
+                  updatedAt: number;
+                  userId: string;
+                  username?: null | string;
+                };
+                model: "farcaster";
               };
           onCreateHandle?: string;
           select?: Array<string>;
@@ -111,6 +130,9 @@ export type ComponentApi<Name extends string | undefined = string | undefined> =
                     | "createdAt"
                     | "updatedAt"
                     | "userId"
+                    | "farcasterFid"
+                    | "farcasterUsername"
+                    | "farcasterDisplayName"
                     | "_id";
                   operator?:
                     | "lt"
@@ -184,6 +206,9 @@ export type ComponentApi<Name extends string | undefined = string | undefined> =
                     | "password"
                     | "createdAt"
                     | "updatedAt"
+                    | "farcasterFid"
+                    | "farcasterUsername"
+                    | "farcasterDisplayName"
                     | "_id";
                   operator?:
                     | "lt"
@@ -243,6 +268,41 @@ export type ComponentApi<Name extends string | undefined = string | undefined> =
                 where?: Array<{
                   connector?: "AND" | "OR";
                   field: "publicKey" | "privateKey" | "createdAt" | "_id";
+                  operator?:
+                    | "lt"
+                    | "lte"
+                    | "gt"
+                    | "gte"
+                    | "eq"
+                    | "in"
+                    | "not_in"
+                    | "ne"
+                    | "contains"
+                    | "starts_with"
+                    | "ends_with";
+                  value:
+                    | string
+                    | number
+                    | boolean
+                    | Array<string>
+                    | Array<number>
+                    | null;
+                }>;
+              }
+            | {
+                model: "farcaster";
+                where?: Array<{
+                  connector?: "AND" | "OR";
+                  field:
+                    | "userId"
+                    | "fid"
+                    | "username"
+                    | "displayName"
+                    | "avatarUrl"
+                    | "notificationDetails"
+                    | "createdAt"
+                    | "updatedAt"
+                    | "_id";
                   operator?:
                     | "lt"
                     | "lte"
@@ -294,6 +354,9 @@ export type ComponentApi<Name extends string | undefined = string | undefined> =
                     | "createdAt"
                     | "updatedAt"
                     | "userId"
+                    | "farcasterFid"
+                    | "farcasterUsername"
+                    | "farcasterDisplayName"
                     | "_id";
                   operator?:
                     | "lt"
@@ -367,6 +430,9 @@ export type ComponentApi<Name extends string | undefined = string | undefined> =
                     | "password"
                     | "createdAt"
                     | "updatedAt"
+                    | "farcasterFid"
+                    | "farcasterUsername"
+                    | "farcasterDisplayName"
                     | "_id";
                   operator?:
                     | "lt"
@@ -446,6 +512,41 @@ export type ComponentApi<Name extends string | undefined = string | undefined> =
                     | Array<number>
                     | null;
                 }>;
+              }
+            | {
+                model: "farcaster";
+                where?: Array<{
+                  connector?: "AND" | "OR";
+                  field:
+                    | "userId"
+                    | "fid"
+                    | "username"
+                    | "displayName"
+                    | "avatarUrl"
+                    | "notificationDetails"
+                    | "createdAt"
+                    | "updatedAt"
+                    | "_id";
+                  operator?:
+                    | "lt"
+                    | "lte"
+                    | "gt"
+                    | "gte"
+                    | "eq"
+                    | "in"
+                    | "not_in"
+                    | "ne"
+                    | "contains"
+                    | "starts_with"
+                    | "ends_with";
+                  value:
+                    | string
+                    | number
+                    | boolean
+                    | Array<string>
+                    | Array<number>
+                    | null;
+                }>;
               };
           onDeleteHandle?: string;
         },
@@ -457,7 +558,13 @@ export type ComponentApi<Name extends string | undefined = string | undefined> =
         "internal",
         {
           limit?: number;
-          model: "user" | "session" | "account" | "verification" | "jwks";
+          model:
+            | "user"
+            | "session"
+            | "account"
+            | "verification"
+            | "jwks"
+            | "farcaster";
           offset?: number;
           paginationOpts: {
             cursor: string | null;
@@ -499,7 +606,13 @@ export type ComponentApi<Name extends string | undefined = string | undefined> =
         "query",
         "internal",
         {
-          model: "user" | "session" | "account" | "verification" | "jwks";
+          model:
+            | "user"
+            | "session"
+            | "account"
+            | "verification"
+            | "jwks"
+            | "farcaster";
           select?: Array<string>;
           where?: Array<{
             connector?: "AND" | "OR";
@@ -539,6 +652,9 @@ export type ComponentApi<Name extends string | undefined = string | undefined> =
                   createdAt?: number;
                   email?: string;
                   emailVerified?: boolean;
+                  farcasterDisplayName?: null | string;
+                  farcasterFid?: null | number;
+                  farcasterUsername?: null | string;
                   image?: null | string;
                   name?: string;
                   updatedAt?: number;
@@ -554,6 +670,9 @@ export type ComponentApi<Name extends string | undefined = string | undefined> =
                     | "createdAt"
                     | "updatedAt"
                     | "userId"
+                    | "farcasterFid"
+                    | "farcasterUsername"
+                    | "farcasterDisplayName"
                     | "_id";
                   operator?:
                     | "lt"
@@ -626,6 +745,9 @@ export type ComponentApi<Name extends string | undefined = string | undefined> =
                   accessTokenExpiresAt?: null | number;
                   accountId?: string;
                   createdAt?: number;
+                  farcasterDisplayName?: null | string;
+                  farcasterFid?: null | number;
+                  farcasterUsername?: null | string;
                   idToken?: null | string;
                   password?: null | string;
                   providerId?: string;
@@ -650,6 +772,9 @@ export type ComponentApi<Name extends string | undefined = string | undefined> =
                     | "password"
                     | "createdAt"
                     | "updatedAt"
+                    | "farcasterFid"
+                    | "farcasterUsername"
+                    | "farcasterDisplayName"
                     | "_id";
                   operator?:
                     | "lt"
@@ -721,6 +846,51 @@ export type ComponentApi<Name extends string | undefined = string | undefined> =
                 where?: Array<{
                   connector?: "AND" | "OR";
                   field: "publicKey" | "privateKey" | "createdAt" | "_id";
+                  operator?:
+                    | "lt"
+                    | "lte"
+                    | "gt"
+                    | "gte"
+                    | "eq"
+                    | "in"
+                    | "not_in"
+                    | "ne"
+                    | "contains"
+                    | "starts_with"
+                    | "ends_with";
+                  value:
+                    | string
+                    | number
+                    | boolean
+                    | Array<string>
+                    | Array<number>
+                    | null;
+                }>;
+              }
+            | {
+                model: "farcaster";
+                update: {
+                  avatarUrl?: null | string;
+                  createdAt?: number;
+                  displayName?: null | string;
+                  fid?: number;
+                  notificationDetails?: null | string;
+                  updatedAt?: number;
+                  userId?: string;
+                  username?: null | string;
+                };
+                where?: Array<{
+                  connector?: "AND" | "OR";
+                  field:
+                    | "userId"
+                    | "fid"
+                    | "username"
+                    | "displayName"
+                    | "avatarUrl"
+                    | "notificationDetails"
+                    | "createdAt"
+                    | "updatedAt"
+                    | "_id";
                   operator?:
                     | "lt"
                     | "lte"
@@ -766,6 +936,9 @@ export type ComponentApi<Name extends string | undefined = string | undefined> =
                   createdAt?: number;
                   email?: string;
                   emailVerified?: boolean;
+                  farcasterDisplayName?: null | string;
+                  farcasterFid?: null | number;
+                  farcasterUsername?: null | string;
                   image?: null | string;
                   name?: string;
                   updatedAt?: number;
@@ -781,6 +954,9 @@ export type ComponentApi<Name extends string | undefined = string | undefined> =
                     | "createdAt"
                     | "updatedAt"
                     | "userId"
+                    | "farcasterFid"
+                    | "farcasterUsername"
+                    | "farcasterDisplayName"
                     | "_id";
                   operator?:
                     | "lt"
@@ -853,6 +1029,9 @@ export type ComponentApi<Name extends string | undefined = string | undefined> =
                   accessTokenExpiresAt?: null | number;
                   accountId?: string;
                   createdAt?: number;
+                  farcasterDisplayName?: null | string;
+                  farcasterFid?: null | number;
+                  farcasterUsername?: null | string;
                   idToken?: null | string;
                   password?: null | string;
                   providerId?: string;
@@ -877,6 +1056,9 @@ export type ComponentApi<Name extends string | undefined = string | undefined> =
                     | "password"
                     | "createdAt"
                     | "updatedAt"
+                    | "farcasterFid"
+                    | "farcasterUsername"
+                    | "farcasterDisplayName"
                     | "_id";
                   operator?:
                     | "lt"
@@ -948,6 +1130,51 @@ export type ComponentApi<Name extends string | undefined = string | undefined> =
                 where?: Array<{
                   connector?: "AND" | "OR";
                   field: "publicKey" | "privateKey" | "createdAt" | "_id";
+                  operator?:
+                    | "lt"
+                    | "lte"
+                    | "gt"
+                    | "gte"
+                    | "eq"
+                    | "in"
+                    | "not_in"
+                    | "ne"
+                    | "contains"
+                    | "starts_with"
+                    | "ends_with";
+                  value:
+                    | string
+                    | number
+                    | boolean
+                    | Array<string>
+                    | Array<number>
+                    | null;
+                }>;
+              }
+            | {
+                model: "farcaster";
+                update: {
+                  avatarUrl?: null | string;
+                  createdAt?: number;
+                  displayName?: null | string;
+                  fid?: number;
+                  notificationDetails?: null | string;
+                  updatedAt?: number;
+                  userId?: string;
+                  username?: null | string;
+                };
+                where?: Array<{
+                  connector?: "AND" | "OR";
+                  field:
+                    | "userId"
+                    | "fid"
+                    | "username"
+                    | "displayName"
+                    | "avatarUrl"
+                    | "notificationDetails"
+                    | "createdAt"
+                    | "updatedAt"
+                    | "_id";
                   operator?:
                     | "lt"
                     | "lte"
