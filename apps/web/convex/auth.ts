@@ -112,6 +112,13 @@ export const createAuth = (
           allowUserToLink: true,
         });
 
+        const signInPath =
+          siwfPlugin.endpoints?.signInWithFarcaster?.path ?? "unknown";
+        const linkPath = siwfPlugin.endpoints?.linkFarcaster?.path ?? "unknown";
+        console.warn(
+          `[SIWF] server endpoint paths | signIn=${signInPath} | link=${linkPath}`,
+        );
+
         if (siwfPlugin.endpoints?.signInWithFarcaster) {
           siwfPlugin.endpoints.signInWithFarcaster =
             wrapSiwfEndpointWithDomainLogging(
