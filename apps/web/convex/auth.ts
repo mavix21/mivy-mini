@@ -19,17 +19,17 @@ const resolveSiteUrl = () => {
 
   try {
     new URL(candidate);
-    console.log("Resolved site URL:", candidate);
+    console.warn("Resolved site URL:", candidate);
     return candidate;
   } catch {
-    console.log("Using fallback site URL:", fallback);
+    console.warn("Using fallback site URL:", fallback);
     return fallback;
   }
 };
 
 const siteUrl = resolveSiteUrl();
 const siwfHostname = new URL(siteUrl).hostname;
-console.log("[SIWF] configured hostname:", siwfHostname);
+console.warn("[SIWF] configured hostname:", siwfHostname);
 
 const decodeJwtAudience = (token: string): string | null => {
   const payload = token.split(".")[1];
@@ -61,7 +61,7 @@ const wrapSiwfEndpointWithDomainLogging = <
       typeof inputCtx?.body?.token === "string" ? inputCtx.body.token : null;
     const tokenAudience = token ? decodeJwtAudience(token) : null;
     const requestHost = inputCtx?.request?.headers?.get?.("host") ?? null;
-    console.log(
+    console.warn(
       `[SIWF] ${label} domain comparison | configured=${siwfHostname} | token.aud=${tokenAudience ?? "unknown"} | request.host=${requestHost ?? "unknown"}`,
     );
     return endpoint(inputCtx);
