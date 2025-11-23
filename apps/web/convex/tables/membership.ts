@@ -2,7 +2,7 @@ import { defineTable } from "convex/server";
 import { v } from "convex/values";
 
 export const membershipsTable = defineTable({
-    supporterId: v.id("users"),
+    supporterId: v.id("user"),
     creatorId: v.id("creators"),
     tierId: v.id("tiers"),
 

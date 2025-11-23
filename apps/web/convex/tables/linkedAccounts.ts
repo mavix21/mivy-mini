@@ -2,7 +2,7 @@ import { defineTable } from 'convex/server';
 import { v } from 'convex/values';
 
 export const linkedAccountsTable = defineTable({
-  userId: v.id('users'),
+  userId: v.id('user'),
   account: v.union(
     v.object({
       protocol: v.literal('farcaster'),
