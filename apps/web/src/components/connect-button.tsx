@@ -2,14 +2,12 @@
 
 import { useState, useEffect } from 'react'
 import { useAccount, useConnect, useDisconnect } from 'wagmi'
-import { useMiniApp } from '@/contexts/miniapp-context'
 
 export function WalletConnectButton() {
   const [mounted, setMounted] = useState(false)
   const { address, isConnected } = useAccount()
   const { connect, connectors } = useConnect()
   const { disconnect } = useDisconnect()
-  const { context } = useMiniApp()
 
   useEffect(() => {
     setMounted(true)
@@ -25,7 +23,7 @@ export function WalletConnectButton() {
 
   if (!isConnected) {
     const frameConnector = connectors.find(connector => connector.id === 'frameWallet')
-    
+
     return (
       <button
         onClick={() => frameConnector && connect({ connector: frameConnector })}

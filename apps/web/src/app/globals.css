@@ -29,13 +29,13 @@
     --chart-4: 16.0714 100% 78.0392%;
     --chart-5: 9.5798 54.8387% 57.4510%;
     --sidebar: 15.0000 100.0000% 96.0784%;
-    --sidebar-foreground: 346.6667 7.9646% 22.1569%;
-    --sidebar-primary: 11.6250 100% 68.6275%;
-    --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 26.1069 98.4962% 73.9216%;
-    --sidebar-accent-foreground: 346.6667 7.9646% 22.1569%;
-    --sidebar-border: 14.6341 100.0000% 91.9608%;
-    --sidebar-ring: 11.6250 100% 68.6275%;
+    --sidebar-foreground: 240 5.3% 26.1%;
+    --sidebar-primary: 240 5.9% 10%;
+    --sidebar-primary-foreground: 0 0% 98%;
+    --sidebar-accent: 240 4.8% 95.9%;
+    --sidebar-accent-foreground: 240 5.9% 10%;
+    --sidebar-border: 220 13% 91%;
+    --sidebar-ring: 217.2 91.2% 59.8%;
     --font-sans: Montserrat, sans-serif;
     --font-serif: Merriweather, serif;
     --font-mono: Ubuntu Mono, monospace;
@@ -56,6 +56,7 @@
     --shadow-2xl: 0px 6px 12px -3px hsl(0 0% 0% / 0.22);
     --tracking-normal: 0em;
     --spacing: 0.25rem;
+    --sidebar-background: 0 0% 98%;
   }
 
   .dark {
@@ -84,13 +85,13 @@
     --chart-4: 16.0714 100% 78.0392%;
     --chart-5: 9.5798 54.8387% 57.4510%;
     --sidebar: 336 13.5135% 14.5098%;
-    --sidebar-foreground: 21.4286 35.0000% 92.1569%;
-    --sidebar-primary: 11.6250 100% 68.6275%;
+    --sidebar-foreground: 240 4.8% 95.9%;
+    --sidebar-primary: 224.3 76.3% 48%;
     --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 26.1069 98.4962% 73.9216%;
-    --sidebar-accent-foreground: 336 13.5135% 14.5098%;
-    --sidebar-border: 325 9.3750% 25.0980%;
-    --sidebar-ring: 11.6250 100% 68.6275%;
+    --sidebar-accent: 240 3.7% 15.9%;
+    --sidebar-accent-foreground: 240 4.8% 95.9%;
+    --sidebar-border: 240 3.7% 15.9%;
+    --sidebar-ring: 217.2 91.2% 59.8%;
     --font-sans: Montserrat, sans-serif;
     --font-serif: Merriweather, serif;
     --font-mono: Ubuntu Mono, monospace;
@@ -109,6 +110,7 @@
     --shadow-lg: 0px 6px 12px -3px hsl(0 0% 0% / 0.09), 0px 4px 6px -4px hsl(0 0% 0% / 0.09);
     --shadow-xl: 0px 6px 12px -3px hsl(0 0% 0% / 0.09), 0px 8px 10px -4px hsl(0 0% 0% / 0.09);
     --shadow-2xl: 0px 6px 12px -3px hsl(0 0% 0% / 0.22);
+    --sidebar-background: 240 5.9% 10%;
   }
 }
 
