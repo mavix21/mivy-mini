@@ -14,6 +14,7 @@ import {
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useAuthGateDialog } from "./auth-gate-dialog.context";
+import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { api } from "@/backend/_generated/api";
 
@@ -21,6 +22,7 @@ export function PostCreationLayout() {
   const { isAuthenticated, isLoading } = useConvexAuth();
   const { open } = useAuthGateDialog();
   const createPost = useMutation(api.posts.create);
+  const router = useRouter();
 
   const [title, setTitle] = useState("");
   const [summary, setSummary] = useState("");
@@ -45,7 +47,7 @@ export function PostCreationLayout() {
         type: "text",
       });
       // Redirect to home or show success
-      window.location.href = "/";
+      router.push("/");
     } catch (error) {
       console.error("Failed to publish post:", error);
       // Ideally show a toast here

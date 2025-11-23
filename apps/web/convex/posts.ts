@@ -50,16 +50,14 @@ export const create = mutation({
       throw new Error("Creator profile not found");
     }
 
-    const fullContent = [args.title, args.summary, args.content]
-      .filter((s) => s && s.trim().length > 0)
-      .join("\n\n");
-
     await ctx.db.insert("posts", {
       creatorId: creator._id,
       creationTime: Date.now(),
+      title: args.title,
+      summary: args.summary,
       body: {
         type: "text",
-        content: fullContent,
+        content: args.content,
       },
       stats: {
         likeCount: 0,

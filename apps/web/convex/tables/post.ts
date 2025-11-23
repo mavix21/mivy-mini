@@ -4,6 +4,8 @@ import { v } from "convex/values";
 export const postsTable = defineTable({
     creatorId: v.id("creators"),
     creationTime: v.number(), // "5h ago"
+    title: v.optional(v.string()),
+    summary: v.optional(v.string()),
 
     // LOCKING MECHANISM
     // Which tier is needed to see the unblurred content?
