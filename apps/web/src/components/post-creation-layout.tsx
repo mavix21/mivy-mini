@@ -60,7 +60,7 @@ export function PostCreationLayout() {
           <span className="sr-only">More options</span>
         </Button>
 
-        <Button className="bg-[#FF9F5E] hover:bg-[#FF8F40] text-white rounded-md px-4 py-1.5 h-auto font-medium">
+        <Button className="rounded-md px-4 py-1.5 h-auto">
           Publish
         </Button>
       </header>

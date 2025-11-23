@@ -10,6 +10,7 @@
 
 import type * as auth from "../auth.js";
 import type * as http from "../http.js";
+import type * as posts from "../posts.js";
 import type * as tables_creator from "../tables/creator.js";
 import type * as tables_interaction from "../tables/interaction.js";
 import type * as tables_linkedAccounts from "../tables/linkedAccounts.js";
@@ -27,6 +28,7 @@ import type {
 declare const fullApi: ApiFromModules<{
   auth: typeof auth;
   http: typeof http;
+  posts: typeof posts;
   "tables/creator": typeof tables_creator;
   "tables/interaction": typeof tables_interaction;
   "tables/linkedAccounts": typeof tables_linkedAccounts;
