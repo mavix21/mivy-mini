@@ -118,6 +118,17 @@ export const useSignInWithFarcaster = (
 
         const user = result.user;
         setState({ status: "success", user, error: null });
+
+        try {
+          // Poke Better Auth's session atom so ConvexBetterAuthProvider re-fetches the session.
+          authClient.$store.notify("$sessionSignal");
+        } catch (refreshError) {
+          console.error(
+            "[useSignInWithFarcaster] Failed to refresh Better Auth session",
+            refreshError,
+          );
+        }
+
         await optionsRef.current?.onSuccess?.(user);
         return user;
       } catch (unknownError) {
