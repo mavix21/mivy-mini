@@ -7,11 +7,13 @@ A modern Celo blockchain application built with Next.js, TypeScript, and Turbore
 ## Getting Started
 
 1. Install dependencies:
+
    ```bash
-   pnpm install
+   pnpm i
    ```
 
 2. Start the development server:
+
    ```bash
    pnpm dev
    ```
