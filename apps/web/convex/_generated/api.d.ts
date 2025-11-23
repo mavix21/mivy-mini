@@ -10,7 +10,12 @@
 
 import type * as auth from "../auth.js";
 import type * as http from "../http.js";
+import type * as tables_creator from "../tables/creator.js";
+import type * as tables_interaction from "../tables/interaction.js";
 import type * as tables_linkedAccounts from "../tables/linkedAccounts.js";
+import type * as tables_membership from "../tables/membership.js";
+import type * as tables_post from "../tables/post.js";
+import type * as tables_tier from "../tables/tier.js";
 import type * as tables_user from "../tables/user.js";
 
 import type {
@@ -22,7 +27,12 @@ import type {
 declare const fullApi: ApiFromModules<{
   auth: typeof auth;
   http: typeof http;
+  "tables/creator": typeof tables_creator;
+  "tables/interaction": typeof tables_interaction;
   "tables/linkedAccounts": typeof tables_linkedAccounts;
+  "tables/membership": typeof tables_membership;
+  "tables/post": typeof tables_post;
+  "tables/tier": typeof tables_tier;
   "tables/user": typeof tables_user;
 }>;
 
