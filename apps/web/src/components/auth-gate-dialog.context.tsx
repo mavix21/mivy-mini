@@ -63,7 +63,7 @@ function AuthGateDialog({
 }: AuthGateDialogProps) {
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="w-fit p-8">
+      <DialogContent className="w-10/12 p-8 rounded-xl">
         <DialogHeader>
           <DialogTitle className="mx-auto max-w-fit text-center text-4xl font-bold">
             {title}
