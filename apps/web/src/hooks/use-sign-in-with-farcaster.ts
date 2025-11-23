@@ -85,7 +85,7 @@ export const useSignInWithFarcaster = (
           },
         };
 
-        const response = await authClient.siwf.signInWithFarcaster(payload);
+        const response = await authClient.signInWithFarcaster(payload);
         const result = unwrapVerifyResponse(response);
         if (!result?.success) {
           const message = response.error?.message ?? "Failed to verify token";
