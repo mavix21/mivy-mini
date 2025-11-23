@@ -4,6 +4,7 @@ import "./globals.css";
 
 import { BottomNav } from "@/components/bottom-nav";
 import Providers from "@/components/providers";
+import { AuthGateDialogProvider } from "@/components/auth-gate-dialog.context";
 import { ConvexClientProvider } from "./ConvexClientProvider";
 
 const inter = Inter({ subsets: ["latin"] });
@@ -50,11 +51,13 @@ export default function RootLayout({
         {/* Navbar is included on all pages */}
         <div className="relative flex min-h-screen flex-col">
           <ConvexClientProvider>
-            <Providers>
-              {/* <Navbar /> */}
-              <BottomNav />
-              <main className="flex-1">{children}</main>
-            </Providers>
+            <AuthGateDialogProvider>
+              <Providers>
+                {/* <Navbar /> */}
+                <BottomNav />
+                <main className="flex-1">{children}</main>
+              </Providers>
+            </AuthGateDialogProvider>
           </ConvexClientProvider>
         </div>
       </body>
