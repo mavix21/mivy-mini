@@ -17,6 +17,7 @@ interface AuthGateDialogProps {
   onOpenChange: (open: boolean) => void;
   title: string;
   description: string;
+  onSignedIn: () => void;
 }
 
 type AuthGateDialogMessage = {
@@ -49,6 +50,7 @@ interface OpenOptions {
 
 type AuthGateDialogContextValue = {
   open: (options?: OpenOptions) => void;
+  close: () => void;
 };
 
 const AuthGateDialogContext = createContext<
@@ -60,6 +62,7 @@ function AuthGateDialog({
   onOpenChange,
   title,
   description,
+  onSignedIn,
 }: AuthGateDialogProps) {
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
@@ -72,7 +75,13 @@ function AuthGateDialog({
             <span className="mx-auto block max-w-[30ch] text-center">
               {description}
             </span>
-            <SiwfButton className="w-full" showStatusMessage={false} />
+            <SiwfButton
+              className="w-full"
+              showStatusMessage
+              onSuccess={() => {
+                onSignedIn();
+              }}
+            />
           </DialogDescription>
         </DialogHeader>
       </DialogContent>
@@ -90,6 +99,10 @@ export const AuthGateDialogProvider = ({
     AUTH_DIALOG_MESSAGES.default,
   );
 
+  const close = useCallback(() => {
+    setDialogOpen(false);
+  }, []);
+
   const open = useCallback((options?: OpenOptions) => {
     const key = options?.key ?? "default";
     const base = AUTH_DIALOG_MESSAGES[key] ?? AUTH_DIALOG_MESSAGES.default;
@@ -102,13 +115,14 @@ export const AuthGateDialogProvider = ({
   }, []);
 
   return (
-    <AuthGateDialogContext.Provider value={{ open }}>
+    <AuthGateDialogContext.Provider value={{ open, close }}>
       {children}
       <AuthGateDialog
         open={dialogOpen}
         onOpenChange={setDialogOpen}
         title={message.title}
         description={message.description}
+        onSignedIn={close}
       />
     </AuthGateDialogContext.Provider>
   );

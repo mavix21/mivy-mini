@@ -53,7 +53,7 @@ export const useSignInWithFarcaster = (
   optionsRef.current = options;
 
   const reset = useCallback(() => {
-    setState(createInitialState<VerifiedUser>);
+    setState(createInitialState<VerifiedUser>());
   }, []);
 
   const signInWithFarcaster = useCallback(async () => {
@@ -115,6 +115,7 @@ export const useSignInWithFarcaster = (
             ? unknownError
             : new Error("Farcaster sign-in failed");
 
+        console.error("[useSignInWithFarcaster]", normalizedError);
         setState({ status: "error", user: null, error: normalizedError });
         await optionsRef.current?.onError?.(normalizedError);
         throw normalizedError;
