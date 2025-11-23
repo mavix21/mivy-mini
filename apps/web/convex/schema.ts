@@ -15,5 +15,4 @@ export default defineSchema({
     memberships: membershipsTable,
     posts: postsTable,
     tiers: tiersTable,
-    users: usersTable,
 });
