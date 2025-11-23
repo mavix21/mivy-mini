@@ -31,55 +31,12 @@ const siteUrl = resolveSiteUrl();
 const siwfHostname = new URL(siteUrl).hostname;
 console.warn("[SIWF] configured hostname:", siwfHostname);
 
-const decodeJwtAudience = (token: string): string | null => {
-  const payload = token.split(".")[1];
-  if (!payload) {
-    return null;
-  }
-
-  try {
-    const normalized = payload
-      .replace(/-/g, "+")
-      .replace(/_/g, "/")
-      .padEnd(payload.length + ((4 - (payload.length % 4)) % 4), "=");
-    const decoded = Buffer.from(normalized, "base64").toString("utf8");
-    const parsed = JSON.parse(decoded);
-    return typeof parsed.aud === "string" ? parsed.aud : null;
-  } catch {
-    return null;
-  }
-};
-
-const wrapSiwfEndpointWithDomainLogging = <
-  T extends (...args: any[]) => Promise<any>,
->(
-  endpoint: T,
-  label: string,
-) => {
-  const wrapped = (async (inputCtx: any) => {
-    const token =
-      typeof inputCtx?.body?.token === "string" ? inputCtx.body.token : null;
-    const tokenAudience = token ? decodeJwtAudience(token) : null;
-    const requestHost = inputCtx?.request?.headers?.get?.("host") ?? null;
-    console.warn(
-      `[SIWF] ${label} domain comparison | configured=${siwfHostname} | token.aud=${tokenAudience ?? "unknown"} | request.host=${requestHost ?? "unknown"}`,
-    );
-    return endpoint(inputCtx);
-  }) as T & { options?: any; path?: string };
-
-  if (endpoint && typeof endpoint === "function") {
-    (wrapped as any).options = (endpoint as any).options;
-    (wrapped as any).path = (endpoint as any).path;
-  }
-
-  return wrapped as T;
-};
-
 // The component client has methods needed for integrating Convex with Better Auth,
 // as well as helper methods for general use.
 export const authComponent = createClient<DataModel, typeof authSchema>(
   components.betterAuth,
   {
+    verbose: true,
     local: {
       schema: authSchema,
     },
@@ -106,37 +63,10 @@ export const createAuth = (
     plugins: [
       // The Convex plugin is required for Convex compatibility
       convex(),
-      (() => {
-        const siwfPlugin = siwf({
-          hostname: siwfHostname,
-          allowUserToLink: true,
-        });
-
-        const signInPath =
-          siwfPlugin.endpoints?.signInWithFarcaster?.path ?? "unknown";
-        const linkPath = siwfPlugin.endpoints?.linkFarcaster?.path ?? "unknown";
-        console.warn(
-          `[SIWF] server endpoint paths | signIn=${signInPath} | link=${linkPath}`,
-        );
-
-        if (siwfPlugin.endpoints?.signInWithFarcaster) {
-          siwfPlugin.endpoints.signInWithFarcaster =
-            wrapSiwfEndpointWithDomainLogging(
-              siwfPlugin.endpoints.signInWithFarcaster,
-              "signInWithFarcaster",
-            );
-        }
-
-        if (siwfPlugin.endpoints?.linkFarcaster) {
-          siwfPlugin.endpoints.linkFarcaster =
-            wrapSiwfEndpointWithDomainLogging(
-              siwfPlugin.endpoints.linkFarcaster,
-              "linkFarcaster",
-            );
-        }
-
-        return siwfPlugin;
-      })(),
+      siwf({
+        hostname: siwfHostname,
+        allowUserToLink: true,
+      }),
     ],
   });
 };
