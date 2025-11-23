@@ -22,8 +22,6 @@ const createInitialState = <User>(): SignInState<User> => ({
   error: null,
 });
 
-type VerifyTokenAction = (payload: SignInPayload) => Promise<SignInResponse>;
-
 type UseSignInWithFarcasterOptions = {
   /** Optional success callback invoked with the authenticated Better Auth user. */
   onSuccess?: (user: VerifiedUser) => void | Promise<void>;
@@ -61,17 +59,6 @@ export const useSignInWithFarcaster = (
       return inFlightRef.current;
     }
 
-    const siwf = authClient.siwf as SiwfActions & {
-      verifyToken?: VerifyTokenAction;
-    };
-    const verifyToken = siwf.verifyToken ?? siwf.signInWithFarcaster;
-
-    if (!verifyToken) {
-      throw new Error(
-        "SIWF verify action is not configured on the auth client.",
-      );
-    }
-
     const signInPromise: Promise<VerifiedUser> = (async () => {
       setState({ status: "pending", user: null, error: null });
 
@@ -98,7 +85,7 @@ export const useSignInWithFarcaster = (
           },
         };
 
-        const response = await verifyToken(payload);
+        const response = await authClient.siwf.signInWithFarcaster(payload);
         const result = unwrapVerifyResponse(response);
         if (!result?.success) {
           const message = response.error?.message ?? "Failed to verify token";
