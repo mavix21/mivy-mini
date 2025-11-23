@@ -24,15 +24,10 @@ import { Button } from "@/components/ui/profile/button"
 import { Badge } from "@/components/ui/profile/badge"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/profile/card"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/profile/tabs"
-import { ScrollArea, ScrollBar } from "@/components/ui/profile/scroll-area"
 
 export default function Web3ArtistProfile() {
   const [activeTab, setActiveTab] = useState("posts")
   const [isFollowing, setIsFollowing] = useState(false)
-
-  // Explicit branding colors from request
-  const brandOrange = "#fd852e"
-  const brandPurple = "#a093a6"
 
   const tiers = [
     {
@@ -115,29 +110,22 @@ export default function Web3ArtistProfile() {
   return (
     <div className="min-h-screen bg-background text-foreground font-sans">
       {/* Cover Image */}
-      <div className="h-48 md:h-64 w-full bg-gradient-to-r from-orange-400 via-pink-500 to-purple-600 relative overflow-hidden">
-        <div className="absolute inset-0 bg-black/20" />
-        <Button
-          variant="secondary"
-          size="icon"
-          className="absolute top-4 right-4 rounded-full bg-black/30 hover:bg-black/50 text-white backdrop-blur-sm border-none"
-        >
-          <Share2 className="h-4 w-4" />
-        </Button>
+      <div className="h-48 md:h-64 w-full bg.secondary relative overflow-hidden">
+        <div className="absolute inset-0 bg-accent" />
       </div>
 
       <div className="max-w-4xl mx-auto px-4 sm:px-6 relative">
         {/* Profile Header Info */}
-        <div className="flex flex-col md:flex-row items-start md:items-end gap-4 -mt-16 md:-mt-20 mb-8">
+        <div className="flex flex-col md:flex-row items-start md:items-end gap-4 -mt-16 md:-mt-20 mb-5">
           <Avatar className="w-32 h-32 md:w-40 md:h-40 border-4 border-background shadow-xl">
             <AvatarImage src="/avatar-3d.jpg" alt="Profile" />
             <AvatarFallback>AR</AvatarFallback>
           </Avatar>
 
-          <div className="flex-1 mt-2 md:mb-2 space-y-2">
-            <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+          <div className="flex-1 w-full mt-2 md:mb-2 space-y-2">
+            <div className="flex justify-between gap-4">
               <div>
-                <div className="flex items-center gap-2">
+                <div className="flex  gap-2">
                   <h1 className="text-2xl md:text-3xl font-bold font-sans">Alex Rivera</h1>
                   <BadgeCheck className="h-6 w-6 text-primary fill-primary/20" />
                 </div>
@@ -151,20 +139,13 @@ export default function Web3ArtistProfile() {
                 >
                   {isFollowing ? "Following" : "Follow"}
                 </Button>
-                <Button variant="outline" className="rounded-full border-muted-foreground/30 bg-transparent">
-                  <Wallet className="mr-2 h-4 w-4" />
-                  Tip
-                </Button>
-                <Button variant="ghost" size="icon" className="rounded-full">
-                  <MoreHorizontal className="h-5 w-5" />
-                </Button>
               </div>
             </div>
           </div>
         </div>
 
         {/* Bio & Details */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-10">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-6">
           <div className="md:col-span-2 space-y-6">
             <div className="space-y-4">
               <p className="text-lg leading-relaxed">
@@ -200,7 +181,6 @@ export default function Web3ArtistProfile() {
               </div>
               <div className="text-center md:text-left">
                 <div className="text-2xl font-bold font-sans flex items-center justify-center md:justify-start gap-1">
-                  <Zap className="h-5 w-5 text-primary" />
                   84 ETH
                 </div>
                 <div className="text-xs text-muted-foreground font-semibold uppercase tracking-wider">Vol Traded</div>
@@ -236,202 +216,158 @@ export default function Web3ArtistProfile() {
           </div>
         </div>
 
-        {/* Membership Tiers - Horizontal Scroll on Mobile */}
-        <div className="mb-12">
-          <div className="flex items-center justify-between mb-4">
-            <h2 className="text-xl font-bold flex items-center gap-2">
-              <Gem className="h-5 w-5 text-primary" />
-              Membership Tiers
-            </h2>
-          </div>
-
-          <ScrollArea className="w-full whitespace-nowrap pb-4">
-            <div className="flex gap-4">
-              {tiers.map((tier) => (
-                <Card
-                  key={tier.name}
-                  className={`w-[280px] md:w-[300px] shrink-0 border-border/60 shadow-sm transition-all hover:shadow-md ${tier.color ? tier.color : ""}`}
-                >
-                  <CardHeader>
-                    <CardTitle className="text-lg font-bold">{tier.name}</CardTitle>
-                    <CardDescription className="text-muted-foreground font-medium">
-                      <span className="text-2xl font-bold text-foreground">{tier.price}</span>
-                      {tier.period}
-                    </CardDescription>
-                  </CardHeader>
-                  <CardContent className="space-y-3">
-                    <p className="text-sm text-muted-foreground whitespace-normal min-h-[40px]">{tier.description}</p>
-                    <ul className="space-y-2">
-                      {tier.features.map((feature) => (
-                        <li key={feature} className="flex items-center gap-2 text-sm font-medium">
-                          <div className="h-1.5 w-1.5 rounded-full bg-primary" />
-                          {feature}
-                        </li>
-                      ))}
-                    </ul>
-                  </CardContent>
-                  <CardFooter>
-                    <Button className="w-full rounded-full font-bold shadow-none">Join {tier.name}</Button>
-                  </CardFooter>
-                </Card>
-              ))}
-            </div>
-            <ScrollBar orientation="horizontal" className="hidden" />
-          </ScrollArea>
-        </div>
-
         {/* Content Tabs */}
-        <Tabs defaultValue="posts" className="w-full" onValueChange={setActiveTab}>
-          <TabsList className="w-full justify-start border-b border-border/50 bg-transparent rounded-none h-auto p-0 mb-6 gap-6">
-            <TabsTrigger
-              value="posts"
-              className="rounded-none border-b-2 border-transparent px-2 py-3 data-[state=active]:border-primary data-[state=active]:bg-transparent data-[state=active]:shadow-none font-bold text-muted-foreground data-[state=active]:text-foreground text-base transition-all"
-            >
-              <LayoutGrid className="mr-2 h-4 w-4" />
-              Posts
-            </TabsTrigger>
-            <TabsTrigger
+        <div className="flex flex-col gap-6">
+          <Tabs defaultValue="posts" onValueChange={setActiveTab}>
+            <TabsList className="w-full">
+              <TabsTrigger
+                value="posts"
+              >
+                <LayoutGrid className="mr-2 h-4 w-4" />
+                Posts
+              </TabsTrigger>
+              {/* <TabsTrigger
               value="nfts"
               className="rounded-none border-b-2 border-transparent px-2 py-3 data-[state=active]:border-primary data-[state=active]:bg-transparent data-[state=active]:shadow-none font-bold text-muted-foreground data-[state=active]:text-foreground text-base transition-all"
             >
               <ImageIcon className="mr-2 h-4 w-4" />
               Gallery
-            </TabsTrigger>
-            <TabsTrigger
-              value="community"
-              className="rounded-none border-b-2 border-transparent px-2 py-3 data-[state=active]:border-primary data-[state=active]:bg-transparent data-[state=active]:shadow-none font-bold text-muted-foreground data-[state=active]:text-foreground text-base transition-all"
-            >
-              <Users className="mr-2 h-4 w-4" />
-              Community
-            </TabsTrigger>
-          </TabsList>
+            </TabsTrigger> */}
+              <TabsTrigger
+                value="community"
+              >
+                <Users className="mr-2 h-4 w-4" />
+                Community
+              </TabsTrigger>
+            </TabsList>
 
-          <TabsContent value="posts" className="space-y-6 animate-in fade-in-50 duration-500">
-            {posts.map((post) => (
-              <Card key={post.id} className="border-border/60 overflow-hidden bg-card/50 backdrop-blur-sm">
-                <CardContent className="p-0">
-                  <div className="p-4 sm:p-6">
-                    <div className="flex gap-3 mb-4">
-                      <Avatar>
-                        <AvatarImage src={post.avatar || "/placeholder.svg"} />
-                        <AvatarFallback>AR</AvatarFallback>
-                      </Avatar>
-                      <div>
-                        <div className="flex items-center gap-2">
-                          <p className="font-bold text-sm">{post.author}</p>
-                          <span className="text-muted-foreground text-sm">• {post.timestamp}</span>
+            <TabsContent value="posts" className="space-y-6 animate-in fade-in-50 duration-500">
+              {posts.map((post) => (
+                <Card key={post.id} className="border-border/60 overflow-hidden bg-card/50 backdrop-blur-sm">
+                  <CardContent className="p-0">
+                    <div className="p-4 sm:p-6">
+                      <div className="flex gap-3 mb-4">
+                        <Avatar>
+                          <AvatarImage src={post.avatar || "/placeholder.svg"} />
+                          <AvatarFallback>AR</AvatarFallback>
+                        </Avatar>
+                        <div>
+                          <div className="flex items-center gap-2">
+                            <p className="font-bold text-sm">{post.author}</p>
+                            <span className="text-muted-foreground text-sm">• {post.timestamp}</span>
+                          </div>
+                          <p className="text-muted-foreground text-sm">{post.handle}</p>
                         </div>
-                        <p className="text-muted-foreground text-sm">{post.handle}</p>
                       </div>
+
+                      <p className="mb-4 text-base leading-relaxed">{post.content}</p>
                     </div>
 
-                    <p className="mb-4 text-base leading-relaxed">{post.content}</p>
-                  </div>
-
-                  {post.image && (
-                    <div className="relative">
-                      {post.locked ? (
-                        <div className="relative aspect-video w-full overflow-hidden bg-muted">
-                          <img
-                            src={post.image || "/placeholder.svg"}
-                            alt="Locked content"
-                            className="w-full h-full object-cover blur-xl opacity-50"
-                          />
-                          <div className="absolute inset-0 flex flex-col items-center justify-center p-6 text-center bg-black/20">
-                            <div className="bg-background/80 backdrop-blur-md p-6 rounded-2xl shadow-lg max-w-sm w-full border border-primary/20">
-                              <Lock className="h-8 w-8 text-primary mx-auto mb-3" />
-                              <h3 className="font-bold text-lg mb-1">Members Only</h3>
-                              <p className="text-muted-foreground text-sm mb-4">
-                                Join the {post.tier} tier to unlock this post.
-                              </p>
-                              <Button className="w-full rounded-full font-bold">Unlock Access</Button>
+                    {post.image && (
+                      <div className="relative">
+                        {post.locked ? (
+                          <div className="relative aspect-video w-full overflow-hidden bg-muted">
+                            <img
+                              src={post.image || "/placeholder.svg"}
+                              alt="Locked content"
+                              className="w-full h-full object-cover blur-xl opacity-50"
+                            />
+                            <div className="absolute inset-0 flex flex-col items-center justify-center p-6 text-center bg-black/20">
+                              <div className="bg-background/80 backdrop-blur-md p-6 rounded-2xl shadow-lg max-w-sm w-full border border-primary/20">
+                                <Lock className="h-8 w-8 text-primary mx-auto mb-3" />
+                                <h3 className="font-bold text-lg mb-1">Members Only</h3>
+                                <p className="text-muted-foreground text-sm mb-4">
+                                  Join the {post.tier} tier to unlock this post.
+                                </p>
+                                <Button className="w-full rounded-full font-bold">Unlock Access</Button>
+                              </div>
                             </div>
                           </div>
-                        </div>
-                      ) : (
-                        <div className="aspect-video w-full overflow-hidden bg-muted">
-                          <img
-                            src={post.image || "/placeholder.svg"}
-                            alt="Post content"
-                            className="w-full h-full object-cover"
-                          />
-                        </div>
-                      )}
-                    </div>
-                  )}
+                        ) : (
+                          <div className="aspect-video w-full overflow-hidden bg-muted">
+                            <img
+                              src={post.image || "/placeholder.svg"}
+                              alt="Post content"
+                              className="w-full h-full object-cover"
+                            />
+                          </div>
+                        )}
+                      </div>
+                    )}
 
-                  <div className="p-4 flex items-center justify-between border-t border-border/50">
-                    <div className="flex gap-4">
-                      <Button
-                        variant="ghost"
-                        size="sm"
-                        className="text-muted-foreground hover:text-primary hover:bg-primary/10 rounded-full gap-1.5"
-                      >
-                        <Heart className="h-4 w-4" />
-                        <span className="text-xs font-semibold">{post.likes}</span>
-                      </Button>
-                      <Button
-                        variant="ghost"
-                        size="sm"
-                        className="text-muted-foreground hover:text-primary hover:bg-primary/10 rounded-full gap-1.5"
-                      >
-                        <MessageSquare className="h-4 w-4" />
-                        <span className="text-xs font-semibold">{post.comments}</span>
-                      </Button>
-                      <Button
-                        variant="ghost"
-                        size="sm"
-                        className="text-muted-foreground hover:text-primary hover:bg-primary/10 rounded-full gap-1.5"
-                      >
-                        <Repeat className="h-4 w-4" />
-                        <span className="text-xs font-semibold">{post.shares}</span>
+                    <div className="p-4 flex items-center justify-between border-t border-border/50">
+                      <div className="flex gap-4">
+                        <Button
+                          variant="ghost"
+                          size="sm"
+                          className="text-muted-foreground hover:text-primary hover:bg-primary/10 rounded-full gap-1.5"
+                        >
+                          <Heart className="h-4 w-4" />
+                          <span className="text-xs font-semibold">{post.likes}</span>
+                        </Button>
+                        <Button
+                          variant="ghost"
+                          size="sm"
+                          className="text-muted-foreground hover:text-primary hover:bg-primary/10 rounded-full gap-1.5"
+                        >
+                          <MessageSquare className="h-4 w-4" />
+                          <span className="text-xs font-semibold">{post.comments}</span>
+                        </Button>
+                        <Button
+                          variant="ghost"
+                          size="sm"
+                          className="text-muted-foreground hover:text-primary hover:bg-primary/10 rounded-full gap-1.5"
+                        >
+                          <Repeat className="h-4 w-4" />
+                          <span className="text-xs font-semibold">{post.shares}</span>
+                        </Button>
+                      </div>
+                      <Button variant="ghost" size="icon" className="rounded-full">
+                        <Share2 className="h-4 w-4" />
                       </Button>
                     </div>
-                    <Button variant="ghost" size="icon" className="rounded-full">
-                      <Share2 className="h-4 w-4" />
-                    </Button>
-                  </div>
-                </CardContent>
-              </Card>
-            ))}
-          </TabsContent>
-
-          <TabsContent value="nfts" className="animate-in fade-in-50 duration-500">
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-              {nfts.map((nft) => (
-                <Card
-                  key={nft.id}
-                  className="overflow-hidden border-border/60 hover:border-primary/50 transition-colors cursor-pointer group"
-                >
-                  <div className="aspect-square overflow-hidden bg-muted">
-                    <img
-                      src={nft.image || "/placeholder.svg"}
-                      alt={nft.title}
-                      className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
-                    />
-                  </div>
-                  <div className="p-3">
-                    <h4 className="font-bold text-sm truncate">{nft.title}</h4>
-                    <p className="text-xs text-muted-foreground">0.45 ETH</p>
-                  </div>
+                  </CardContent>
                 </Card>
               ))}
-            </div>
-          </TabsContent>
+            </TabsContent>
 
-          <TabsContent value="community" className="animate-in fade-in-50 duration-500">
-            <Card className="text-center py-12 border-dashed border-2">
-              <CardContent>
-                <Users className="h-12 w-12 mx-auto text-muted-foreground mb-4 opacity-50" />
-                <h3 className="text-xl font-bold mb-2">Member Community</h3>
-                <p className="text-muted-foreground max-w-sm mx-auto mb-6">
-                  Join 482 other patrons in the private Discord server and governance forum.
-                </p>
-                <Button className="rounded-full font-bold">Connect Discord</Button>
-              </CardContent>
-            </Card>
-          </TabsContent>
-        </Tabs>
+            <TabsContent value="nfts" className="animate-in fade-in-50 duration-500">
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                {nfts.map((nft) => (
+                  <Card
+                    key={nft.id}
+                    className="overflow-hidden border-border/60 hover:border-primary/50 transition-colors cursor-pointer group"
+                  >
+                    <div className="aspect-square overflow-hidden bg-muted">
+                      <img
+                        src={nft.image || "/placeholder.svg"}
+                        alt={nft.title}
+                        className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+                      />
+                    </div>
+                    <div className="p-3">
+                      <h4 className="font-bold text-sm truncate">{nft.title}</h4>
+                      <p className="text-xs text-muted-foreground">0.45 ETH</p>
+                    </div>
+                  </Card>
+                ))}
+              </div>
+            </TabsContent>
+
+            <TabsContent value="community" className="animate-in fade-in-50 duration-500">
+              <Card className="text-center py-12 border-dashed border-2">
+                <CardContent>
+                  <Users className="h-12 w-12 mx-auto text-muted-foreground mb-4 opacity-50" />
+                  <h3 className="text-xl font-bold mb-2">Member Community</h3>
+                  <p className="text-muted-foreground max-w-sm mx-auto mb-6">
+                    Join 482 other patrons in the private Discord server and governance forum.
+                  </p>
+                  <Button className="rounded-full font-bold">Connect Discord</Button>
+                </CardContent>
+              </Card>
+            </TabsContent>
+          </Tabs>
+        </div>
       </div>
     </div>
   )
